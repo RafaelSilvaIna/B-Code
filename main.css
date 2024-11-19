@@ -292,3 +292,108 @@ body {
         height: 120px;
     }
   }
+
+.free-platform {
+    padding: 60px 20px;
+    background-color: #00bcd4;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Título da seção */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Descrição */
+.free-description {
+    font-size: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+    line-height: 1.8;
+    color: #f7f7f7;
+}
+
+/* Botão de Entrar */
+.cta {
+    margin-top: 30px;
+}
+
+.cta-btn {
+    font-size: 1.125rem;
+    font-weight: 600;
+    padding: 15px 30px;
+    background-color: #fff;
+    color: #00bcd4;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+    background-color: #0097a7;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Efeitos especiais no fundo */
+.free-platform::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 0;
+}
+
+/* Animações no texto e no botão */
+.free-content {
+    z-index: 1;
+    position: relative;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .free-description {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    .cta-btn {
+        font-size: 1rem;
+        padding: 12px 25px;
+    }
+}
