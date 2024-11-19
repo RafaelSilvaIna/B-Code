@@ -4,116 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>B-Code - Sua Plataforma de Código Colaborativo</title>
+    <meta name="description" content="B-Code é uma plataforma inovadora de desenvolvimento colaborativo, projetada para unir desenvolvedores de todo o mundo.">
     <link rel="stylesheet" href="/main.css">
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous" defer></script>
 </head>
 <body>
     <header>
-        <nav>
-            <div class="logo">
-                <img src="assets/logo.png" alt="B-Code Logo">
-            </div>
+        <nav class="container">
+            <a href="#" class="logo">
+                <img src="assets/logo.png" alt="B-Code Logo" width="120" height="40">
+            </a>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+                <span class="sr-only">Menu</span>
+                <span class="hamburger"></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="#home">Início</a></li>
                 <li><a href="#features">Recursos</a></li>
                 <li><a href="#about">Sobre</a></li>
-                <li><a href="https://github.com/b-code" target="_blank">GitHub</a></li>
+                <li><a href="https://github.com/b-code" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
         </nav>
     </header>
 
     <main>
         <section id="home" class="hero">
-            <h1>B-Code: Sua Plataforma de Código Colaborativo</h1>
-            <p>Versão 1.0.0 (Beta)</p>
-            <a href="#" class="cta-button">Comece Agora</a>
+            <div class="container">
+                <h1>B-Code: Sua Plataforma de Código Colaborativo</h1>
+                <p>Versão 1.0.0 (Beta)</p>
+                <a href="#" class="cta-button">Comece Agora</a>
+            </div>
         </section>
 
-        <section id="features">
-            <h2>Recursos Principais</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Escreva Códigos</h3>
-                    <p>Editor avançado com suporte a múltiplas linguagens.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-file-upload"></i>
-                    <h3>Adicione Arquivos</h3>
-                    <p>Faça upload e gerencie seus arquivos de projeto facilmente.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-comments"></i>
-                    <h3>Crie Posts</h3>
-                    <p>Compartilhe problemas e soluções com a comunidade.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-share-alt"></i>
-                    <h3>Compartilhe Código</h3>
-                    <p>Colabore em tempo real com outros desenvolvedores.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fas fa-brain"></i>
-                    <h3>Análise de IA</h3>
-                    <p>Obtenha insights e sugestões usando nossa IA avançada.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fab fa-github"></i>
-                    <h3>Código Aberto</h3>
-                    <p>Contribua para o desenvolvimento no GitHub.</p>
+        <section id="features" class="features">
+            <div class="container">
+                <h2>Recursos Principais</h2>
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <i class="fas fa-code" aria-hidden="true"></i>
+                        <h3>Escreva Códigos</h3>
+                        <p>Editor avançado com suporte a múltiplas linguagens.</p>
+                    </article>
+                    <article class="feature-card">
+                        <i class="fas fa-file-upload" aria-hidden="true"></i>
+                        <h3>Adicione Arquivos</h3>
+                        <p>Faça upload e gerencie seus arquivos de projeto facilmente.</p>
+                    </article>
+                    <article class="feature-card">
+                        <i class="fas fa-comments" aria-hidden="true"></i>
+                        <h3>Crie Posts</h3>
+                        <p>Compartilhe problemas e soluções com a comunidade.</p>
+                    </article>
+                    <article class="feature-card">
+                        <i class="fas fa-share-alt" aria-hidden="true"></i>
+                        <h3>Compartilhe Código</h3>
+                        <p>Colabore em tempo real com outros desenvolvedores.</p>
+                    </article>
+                    <article class="feature-card">
+                        <i class="fas fa-brain" aria-hidden="true"></i>
+                        <h3>Análise de IA</h3>
+                        <p>Obtenha insights e sugestões usando nossa IA avançada.</p>
+                    </article>
+                    <article class="feature-card">
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                        <h3>Código Aberto</h3>
+                        <p>Contribua para o desenvolvimento no GitHub.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <section id="about">
-            <h2>Sobre o B-Code</h2>
-            <p>B-Code é uma plataforma inovadora de desenvolvimento colaborativo, projetada para unir desenvolvedores de todo o mundo. Nossa missão é simplificar o processo de codificação, compartilhamento e aprendizado.</p>
-            <img src="about-image.jpg" alt="Equipe B-Code" class="about-image">
+        <section id="about" class="about">
+            <div class="container">
+                <h2>Sobre o B-Code</h2>
+                <p>B-Code é uma plataforma inovadora de desenvolvimento colaborativo, projetada para unir desenvolvedores de todo o mundo. Nossa missão é simplificar o processo de codificação, compartilhamento e aprendizado.</p>
+                <img src="about-image.jpg" alt="Equipe B-Code trabalhando em conjunto" width="800" height="400" loading="lazy">
+            </div>
         </section>
 
-        <section id="testimonials">
-            <h2>O que dizem sobre nós</h2>
-            <div class="testimonial-slider">
-                <div class="testimonial">
-                    <p>"B-Code revolucionou a forma como colaboro em projetos. Simplesmente incrível!"</p>
-                    <cite>- Maria Silva, Desenvolvedora Full Stack</cite>
-                </div>
-                <div class="testimonial">
-                    <p>"A análise de IA do B-Code me ajudou a melhorar significativamente a qualidade do meu código."</p>
-                    <cite>- João Oliveira, Engenheiro de Software</cite>
+        <section id="testimonials" class="testimonials">
+            <div class="container">
+                <h2>O que dizem sobre nós</h2>
+                <div id="testimonial-slider" class="testimonial-slider">
+                    <!-- Testimonial slider will be rendered here by React -->
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>B-Code</h4>
-                <p>&copy; 2023 B-Code. Todos os direitos reservados.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Links Rápidos</h4>
-                <ul>
-                    <li><a href="#home">Início</a></li>
-                    <li><a href="#features">Recursos</a></li>
-                    <li><a href="#about">Sobre</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Contato</h4>
-                <p>Email: contato@b-code.com</p>
-                <p>Telefone: (11) 1234-5678</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>B-Code</h4>
+                    <p>&copy; 2023 B-Code. Todos os direitos reservados.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#features">Recursos</a></li>
+                        <li><a href="#about">Sobre</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p>Email: <a href="mailto:rafaelsilvainaciobr@gmail.com">rafaelsilvainaciobr@gmail.com</a></p>
+                </div>
             </div>
         </div>
     </footer>
 
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
 </body>
-  </html>
-
+</html>
