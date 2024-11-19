@@ -1,123 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B-Code - Sua Plataforma de Código Colaborativo</title>
-    <meta name="description" content="B-Code é uma plataforma inovadora de desenvolvimento colaborativo, projetada para unir desenvolvedores de todo o mundo.">
-    <link rel="stylesheet" href="/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous" defer></script>
+    <title>Menu Profissional</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Incluindo o Bootstrap para estilos responsivos -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonte do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <a href="#" class="logo">
-                <img src="assets/logo.png" alt="B-Code Logo" width="120" height="40">
+    <!-- Menu de navegação -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="assets/logo.png" alt="Logo B-Code" class="logo">
             </a>
-            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
-                <span class="sr-only">Menu</span>
-                <span class="hamburger"></span>
+            <!-- Botão do menu responsivo -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <ul class="nav-links">
-                <li><a href="#home">Início</a></li>
-                <li><a href="#features">Recursos</a></li>
-                <li><a href="#about">Sobre</a></li>
-                <li><a href="https://github.com/b-code" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="home" class="hero">
-            <div class="container">
-                <h1>B-Code: Sua Plataforma de Código Colaborativo</h1>
-                <p>Versão 1.0.0 (Beta)</p>
-                <a href="#" class="cta-button">Comece Agora</a>
-            </div>
-        </section>
-
-        <section id="features" class="features">
-            <div class="container">
-                <h2>Recursos Principais</h2>
-                <div class="feature-grid">
-                    <article class="feature-card">
-                        <i class="fas fa-code" aria-hidden="true"></i>
-                        <h3>Escreva Códigos</h3>
-                        <p>Editor avançado com suporte a múltiplas linguagens.</p>
-                    </article>
-                    <article class="feature-card">
-                        <i class="fas fa-file-upload" aria-hidden="true"></i>
-                        <h3>Adicione Arquivos</h3>
-                        <p>Faça upload e gerencie seus arquivos de projeto facilmente.</p>
-                    </article>
-                    <article class="feature-card">
-                        <i class="fas fa-comments" aria-hidden="true"></i>
-                        <h3>Crie Posts</h3>
-                        <p>Compartilhe problemas e soluções com a comunidade.</p>
-                    </article>
-                    <article class="feature-card">
-                        <i class="fas fa-share-alt" aria-hidden="true"></i>
-                        <h3>Compartilhe Código</h3>
-                        <p>Colabore em tempo real com outros desenvolvedores.</p>
-                    </article>
-                    <article class="feature-card">
-                        <i class="fas fa-brain" aria-hidden="true"></i>
-                        <h3>Análise de IA</h3>
-                        <p>Obtenha insights e sugestões usando nossa IA avançada.</p>
-                    </article>
-                    <article class="feature-card">
-                        <i class="fab fa-github" aria-hidden="true"></i>
-                        <h3>Código Aberto</h3>
-                        <p>Contribua para o desenvolvimento no GitHub.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="about">
-            <div class="container">
-                <h2>Sobre o B-Code</h2>
-                <p>B-Code é uma plataforma inovadora de desenvolvimento colaborativo, projetada para unir desenvolvedores de todo o mundo. Nossa missão é simplificar o processo de codificação, compartilhamento e aprendizado.</p>
-                <img src="about-image.jpg" alt="Equipe B-Code trabalhando em conjunto" width="800" height="400" loading="lazy">
-            </div>
-        </section>
-
-        <section id="testimonials" class="testimonials">
-            <div class="container">
-                <h2>O que dizem sobre nós</h2>
-                <div id="testimonial-slider" class="testimonial-slider">
-                    <!-- Testimonial slider will be rendered here by React -->
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h4>B-Code</h4>
-                    <p>&copy; 2023 B-Code. Todos os direitos reservados.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Links Rápidos</h4>
-                    <ul>
-                        <li><a href="#home">Início</a></li>
-                        <li><a href="#features">Recursos</a></li>
-                        <li><a href="#about">Sobre</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contato</h4>
-                    <p>Email: <a href="mailto:rafaelsilvainaciobr@gmail.com">rafaelsilvainaciobr@gmail.com</a></p>
-                </div>
+            <!-- Links de navegação -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Funcionalidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Preços</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contato</a>
+                    </li>
+                </ul>
             </div>
         </div>
-    </footer>
+    </nav>
 
-    <script src="main.js" defer></script>
+    <script src="script.js"></script>
+    <!-- Incluindo o Bootstrap JS e o Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
