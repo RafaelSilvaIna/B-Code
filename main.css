@@ -1,3 +1,4 @@
+
 /* Resetando o estilo */
 * {
     margin: 0;
@@ -23,12 +24,28 @@ body {
     padding: 12px 20px;
     text-transform: uppercase;
     font-size: 16px;
+    display: flex;
+    align-items: center;
 }
 
 /* Efeito de hover nos itens do menu */
 .navbar-nav .nav-item .nav-link:hover {
     color: #00bcd4 !important;
     transition: color 0.3s ease;
+}
+
+/* Estilos do botão "Iniciar" */
+.navbar-nav .nav-item .btn-primary {
+    background-color: #00bcd4;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+.navbar-nav .nav-item .btn-primary:hover {
+    background-color: #0097a7;
+    transition: background-color 0.3s ease;
 }
 
 /* Estilo para o menu no modo mobile */
@@ -41,4 +58,3 @@ body {
         margin: 10px 0;
     }
 }
-
