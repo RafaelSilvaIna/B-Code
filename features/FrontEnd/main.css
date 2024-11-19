@@ -1,0 +1,91 @@
+/* Estilo Geral */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background: #f4f4f9;
+}
+
+header {
+    background: #0056b3;
+    padding: 20px;
+    text-align: center;
+}
+
+header .logo img {
+    height: 60px;
+}
+
+/* Seção de Mensagem */
+.donate-message {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+    background: #e3f2fd;
+}
+
+.message-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.message-container h1 {
+    font-size: 2.5rem;
+    color: #0056b3;
+    margin-bottom: 20px;
+}
+
+.message-container p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.message-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.message-container ul li {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    color: #333;
+}
+
+.message-container ul li i {
+    margin-right: 10px;
+    color: #0056b3;
+}
+
+.image-container img {
+    max-width: 300px;
+    height: auto;
+    margin: 20px auto;
+}
+
+footer {
+    background: #0056b3;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .donate-message {
+        flex-direction: column;
+    }
+
+    .message-container ul li {
+        font-size: 1rem;
+    }
+
+    .image-container img {
+        max-width: 200px;
+    }
+}
