@@ -43,17 +43,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Efeito de rotação em loop no botão de entrar
-    gsap.to(enterButton, {
-        rotation: 360,
-        duration: 4,
-        repeat: -1,
-        ease: "none"
-    });
-});
-
-// Efeito de rolagem suave quando o usuário clica em um link de navegação
-const scroll = new SmoothScroll('a[href*="#"]', {
-    speed: 800, // Ajuste a velocidade da rolagem
-    speedAsDuration: true
-});
+    
