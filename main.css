@@ -397,3 +397,92 @@ body {
         padding: 12px 25px;
     }
 }
+
+/* Estilo da Seção de Atualizações */
+.future-updates {
+    padding: 60px 20px;
+    background: linear-gradient(to bottom, #0288d1, #01579b);
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Título da Seção */
+.section-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Descrição */
+.updates-description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 30px;
+    padding: 0 15px;
+    color: #e1f5fe;
+}
+
+/* Botão de Chamada */
+.cta {
+    margin-top: 30px;
+}
+
+.cta-btn {
+    font-size: 1.125rem;
+    font-weight: 600;
+    padding: 15px 30px;
+    background-color: #fff;
+    color: #0288d1;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.cta-btn:hover {
+    background-color: #01579b;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Fundo com Efeito de Partículas */
+.future-updates::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://cdn.jsdelivr.net/gh/your-image-path/background-particles.png') repeat;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .updates-description {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    .cta-btn {
+        font-size: 1rem;
+        padding: 12px 25px;
+    }
+}
