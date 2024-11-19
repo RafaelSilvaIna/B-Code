@@ -1,88 +1,104 @@
-
-/* Resetando o estilo */
+/* Reset e estilos base */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Estilos para o body */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
 }
 
-/* Estilos para a navbar */
+/* Navbar */
 .navbar {
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 15px 0;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1rem 0;
 }
 
-/* Logo */
 .navbar-brand .logo {
-    width: 150px; /* Ajuste o tamanho da logo */
-    height: auto;
+  width: 120px;
+  height: auto;
 }
 
-/* Estilo para os itens do menu */
+/* Menu items */
 .navbar-nav .nav-item .nav-link {
-    font-weight: 500;
-    color: #333333 !important;
-    padding: 12px 20px;
-    text-transform: uppercase;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    transition: color 0.3s ease, background-color 0.3s ease;
+  font-weight: 500;
+  color: #333 !important;
+  padding: 0.5rem 1rem;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
 }
 
-/* Efeito de hover nos itens do menu */
 .navbar-nav .nav-item .nav-link:hover {
-    color: #00bcd4 !important;
-    background-color: #f0f0f0;
+  color: #00bcd4 !important;
 }
 
-/* Estilos do botão "Iniciar" */
+/* "Iniciar" button */
 .navbar-nav .nav-item .btn-primary {
-    background-color: #00bcd4;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 25px;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #00bcd4;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
 }
 
 .navbar-nav .nav-item .btn-primary:hover {
-    background-color: #0097a7;
-    transform: translateY(-2px);
+  background-color: #0097a7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Estilo para o menu no modo mobile */
-@media (max-width: 767px) {
-    .navbar-nav {
-        background-color: #f8f9fa;
-        padding: 15px;
-        border-radius: 8px;
-        margin-top: 10px;
-    }
+/* Responsive styles */
+@media (max-width: 991px) {
+  .navbar-nav {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }
 
-    .navbar-nav .nav-item {
-        margin: 10px 0;
-    }
+  .navbar-nav .nav-item {
+    margin: 0.5rem 0;
+  }
 
-    .navbar-toggler {
-        border: none;
-        padding: 10px;
-    }
+  .navbar-nav .nav-item .nav-link {
+    color: #333 !important;
+    padding: 0.5rem 1rem;
+  }
 
-    .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-    }
+  .navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+  }
+
+  .navbar-toggler:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  }
 }
 
-/* Adicione uma classe para o item de menu ativo */
-.navbar-nav .nav-item .nav-link.active {
-    color: #00bcd4 !important;
-    font-weight: 700;
+/* Hover effect for nav items */
+.navbar-nav .nav-item .nav-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: #00bcd4;
+  transition: width 0.3s;
+}
+
+.navbar-nav .nav-item .nav-link:hover::after {
+  width: 100%;
 }
