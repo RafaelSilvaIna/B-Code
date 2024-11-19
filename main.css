@@ -449,6 +449,7 @@ body {
     text-decoration: none;
     display: inline-block;
     transition: transform 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .cta-btn:hover {
