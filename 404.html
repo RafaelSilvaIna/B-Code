@@ -3,14 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página não encontrada</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Se necessário -->
+    <title>404 - Página Não Encontrada | B-Code</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #003366;
+            --accent-color: #00a8e8;
+            --text-color: #333333;
+            --background-color: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--text-color);
+        }
+        .container {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+        .logo {
+            max-width: 150px;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            font-size: 5rem;
+            margin: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-top: 0.5rem;
+            color: var(--secondary-color);
+        }
+        p {
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            border: 2px solid var(--accent-color);
+        }
+        .btn:hover {
+            background-color: white;
+            color: var(--accent-color);
+        }
+        .error-image {
+            max-width: 250px;
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Página não encontrada</h1>
-    <p>A página que você está tentando acessar não existe, redirecionando para a página principal...</p>
+    <div class="container">
+        <img src="assets/logo.png" alt="B-Code Logo" class="logo">
+        <img src="assets/404.png" alt="Erro 404" class="error-image">
+        <h1>404</h1>
+        <h2>Página Não Encontrada</h2>
+        <p>Desculpe, mas a página que você está procurando não existe ou foi movida. Verifique se o endereço está correto ou retorne à página inicial para continuar navegando.</p>
+        <a href="index.html" class="btn">Voltar à Página Inicial</a>
+    </div>
     <script>
-        window.location.replace("/public/index.html");
+        document.querySelector('.btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'index.html';
+        });
     </script>
 </body>
 </html>
