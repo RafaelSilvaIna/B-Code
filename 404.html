@@ -5,88 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Página Não Encontrada | B-Code</title>
     <style>
-        :root {
-            --primary-color: #0056b3;
-            --secondary-color: #003366;
-            --accent-color: #00a8e8;
-            --text-color: #333333;
-            --background-color: #f8f9fa;
-        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--background-color);
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            overflow: hidden;
         }
-        .container {
-            background-color: white;
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 90%;
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
-        }
-        .logo {
-            max-width: 150px;
-            margin-bottom: 2rem;
+            z-index: 1;
         }
         h1 {
-            font-size: 5rem;
+            font-size: 6rem;
             margin: 0;
-            color: var(--primary-color);
-            font-weight: bold;
+            color: #00a8e8;
+            text-shadow: 0 0 10px rgba(0, 168, 232, 0.7);
         }
         h2 {
             font-size: 2rem;
             margin-top: 0.5rem;
-            color: var(--secondary-color);
+            color: #ffffff;
         }
         p {
-            color: var(--text-color);
-            margin-bottom: 2rem;
             font-size: 1.1rem;
-            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 600px;
         }
         .btn {
             display: inline-block;
             padding: 12px 24px;
-            background-color: var(--accent-color);
+            background-color: #00a8e8;
             color: white;
             text-decoration: none;
             border-radius: 30px;
             font-weight: bold;
             transition: all 0.3s ease;
             font-size: 1.1rem;
-            border: 2px solid var(--accent-color);
+            border: 2px solid #00a8e8;
         }
         .btn:hover {
-            background-color: white;
-            color: var(--accent-color);
-        }
-        .error-image {
-            max-width: 250px;
-            margin-bottom: 2rem;
+            background-color: transparent;
+            color: #00a8e8;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="assets/logo.png" alt="B-Code Logo" class="logo">
+    <canvas id="canvas"></canvas>
+    <div class="content">
         <h1>404</h1>
         <h2>Página Não Encontrada</h2>
-        <p>Desculpe, mas a página que você está procurando não existe ou foi movida. Verifique se o endereço está correto ou retorne à página inicial para continuar navegando.</p>
-        <a href="index.html" class="btn">Voltar à Página Inicial</a>
+        <p>Desculpe, mas a página que você está procurando não existe ou foi movida. Continue explorando o universo B-Code a partir da nossa página inicial.</p>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        document.querySelector('.btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.location.href = 'index.html';
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas') });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const starsGeometry = new THREE.BufferGeometry();
+        const starsMaterial = new THREE.PointsMaterial({ color: 0xFFFFFF, size: 0.1 });
+
+        const starsVertices = [];
+        for (let i = 0; i < 10000; i++) {
+            const x = (Math.random() - 0.5) * 2000;
+            const y = (Math.random() - 0.5) * 2000;
+            const z = (Math.random() - 0.5) * 2000;
+            starsVertices.push(x, y, z);
+        }
+
+        starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+        const stars = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(stars);
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            stars.rotation.x += 0.0005;
+            stars.rotation.y += 0.0005;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
 </body>
