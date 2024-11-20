@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(45deg, #3490dc, #6574cd, #9561e2);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .banner {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8 text-center">Editar Perfil</h1>
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <form id="profileForm">
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                        Nome de Usuário
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fullName">
+                        Nome Completo
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="fullName" type="text" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="bio">
+                        Bio
+                    </label>
+                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="bio" rows="4"></textarea>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="profilePic">
+                        Foto de Perfil
+                    </label>
+                    <input type="file" id="profilePic" accept="image/*" class="hidden">
+                    <div class="flex items-center justify-center">
+                        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-pic mb-2" id="profilePicPreview">
+                    </div>
+                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" id="changeProfilePic">
+                        Alterar Foto de Perfil
+                    </button>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="banner">
+                        Banner
+                    </label>
+                    <input type="file" id="banner" accept="image/*" class="hidden">
+                    <div class="banner mb-2" id="bannerPreview"></div>
+                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" id="changeBanner">
+                        Alterar Banner
+                    </button>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2">
+                        Links Sociais
+                    </label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="twitter">
+                                Twitter
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="twitter" type="url">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="linkedin">
+                                LinkedIn
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="linkedin" type="url">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="github">
+                                GitHub
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="github" type="url">
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        Salvar Alterações
+                    </button>
+                    <a href="dashboard.html" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Image Cropper Modal -->
+    <div id="cropperModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white rounded-lg p-8 max-w-2xl w-full">
+            <h2 class="text-2xl font-bold mb-4">Recortar Imagem</h2>
+            <div>
+                <img id="cropperImage" src="" alt="Image to crop">
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button id="cropImage" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+                    Recortar
+                </button>
+                <button id="cancelCrop" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getStorage, ref as storageRef, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
+            authDomain: "b-code-881b2.firebaseapp.com",
+            databaseURL: "https://b-code-881b2-default-rtdb.firebaseio.com",
+            projectId: "b-code-881b2",
+            storageBucket: "b-code-881b2.firebasestorage.app",
+            messagingSenderId: "199379425544",
+            appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
+            measurementId: "G-9FEKL6WX7C"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+        const storage = getStorage(app);
+
+        let currentUser = null;
+        let cropper = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                loadUserData(user.uid);
+            } else {
+                console.log("No user is signed in.");
+                window.location.href = 'login.html';
+            }
+        });
+
+        function loadUserData(uid) {
+            const userRef = ref(db, 'users/' + uid);
+            onValue(userRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('username').value = data.username || '';
+                    document.getElementById('fullName').value = data.fullName || '';
+                    document.getElementById('bio').value = data.bio || '';
+                    document.getElementById('profilePicPreview').src = data.profilePic || 'https://via.placeholder.com/150';
+                    document.getElementById('bannerPreview').style.backgroundImage = `url(${data.banner || 'https://via.placeholder.com/1000x200'})`;
+                    document.getElementById('twitter').value = data.socialLinks?.twitter || '';
+                    document.getElementById('linkedin').value = data.socialLinks?.linkedin || '';
+                    document.getElementById('github').value = data.socialLinks?.github || '';
+                }
+            });
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (currentUser) {
+                const username = document.getElementById('username').value;
+                const fullName = document.getElementById('fullName').value;
+                const bio = document.getElementById('bio').value;
+                const twitter = document.getElementById('twitter').value;
+                const linkedin = document.getElementById('linkedin').value;
+                const github = document.getElementById('github').value;
+
+                const userRef = ref(db, 'users/' + currentUser.uid);
+                await set(userRef, {
+                    username: username,
+                    fullName: fullName,
+                    bio: bio,
+                    socialLinks: {
+                        twitter: twitter,
+                        linkedin: linkedin,
+                        github: github
+                    }
+                });
+
+                window.location.href = 'dashboard.html';
+            }
+        });
+
+        document.getElementById('changeProfilePic').addEventListener('click', () => {
+            document.getElementById('profilePic').click();
+        });
+
+        document.getElementById('changeBanner').addEventListener('click', () => {
+            document.getElementById('banner').click();
+        });
+
+        document.getElementById('profilePic').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    openCropperModal(e.target.result, 'profilePic');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('banner').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    openCropperModal(e.target.result, 'banner');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function openCropperModal(imageData, type) {
+            const modal = document.getElementById('cropperModal');
+            const image = document.getElementById('cropperImage');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            image.src = imageData;
+
+            if (cropper) {
+                cropper.destroy();
+            }
+
+            cropper = new Cropper(image, {
+                aspectRatio: type === 'profilePic' ? 1 : 5,
+                viewMode: 1,
+                minCropBoxWidth: 200,
+                minCropBoxHeight: type === 'profilePic' ? 200 : 40,
+            });
+        }
+
+        document.getElementById('cropImage').addEventListener('click', () => {
+            const croppedImage = cropper.getCroppedCanvas().toDataURL();
+            const type = cropper.options.aspectRatio === 1 ? 'profilePic' : 'banner';
+
+            if (type === 'profilePic') {
+                document.getElementById('profilePicPreview').src = croppedImage;
+            } else {
+                document.getElementById('bannerPreview').style.backgroundImage = `url(${croppedImage})`;
+            }
+
+            uploadImage(croppedImage, type);
+            closeCropperModal();
+        });
+
+        document.getElementById('cancelCrop').addEventListener('click', closeCropperModal);
+
+        function closeCropperModal() {
+            const modal = document.getElementById('cropperModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            if (cropper) {
+                cropper.destroy();
+            }
+        }
+
+        async function uploadImage(imageData, type) {
+            if (currentUser) {
+                const imageRef = storageRef(storage, `users/${currentUser.uid}/${type}`);
+                try {
+                    const snapshot = await uploadString(imageRef, imageData, 'data_url');
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+                    
+                    const userRef = ref(db, 'users/' + currentUser.uid);
+                    await set(userRef, {
+                        [type]: downloadURL
+                    }, { merge: true });
+
+                    console.log('Image uploaded successfully');
+                } catch (error) {
+                    console.error('Error uploading image:', error);
+                }
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/cropper@4.1.0/dist/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
