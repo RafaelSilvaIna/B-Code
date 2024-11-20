@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Cadastro | B-Code</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <style>
+        body {
+            background-color: #0a192f;
+            overflow-x: hidden;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #scene-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .input-group {
+            position: relative;
+        }
+        .input-group input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-bottom: 2px solid #4fd1c5;
+            color: #fff;
+            padding-left: 30px;
+        }
+        .input-group input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(79, 209, 197, 0.5);
+        }
+        .input-group i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4fd1c5;
+        }
+        .btn-primary {
+            background-color: #4fd1c5;
+            color: #0a192f;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #38b2ac;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(79, 209, 197, 0.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center text-white">
+    <div id="scene-container"></div>
+
+    <div class="container mx-auto px-4">
+        <div class="glass-effect p-8 max-w-4xl mx-auto">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <!-- Slide de Login -->
+                    <div class="swiper-slide">
+                        <div class="w-full max-w-md" data-tilt>
+                            <h2 class="text-3xl font-bold text-4fd1c5 mb-6 text-center">Login</h2>
+                            <form id="loginForm" class="space-y-6">
+                                <div class="input-group">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="loginEmail" name="email" class="w-full p-2 rounded-md" placeholder="seu@email.com" required>
+                                </div>
+                                <div class="input-group">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="loginPassword" name="password" class="w-full p-2 rounded-md" placeholder="Senha" required>
+                                </div>
+                                <button type="submit" class="w-full btn-primary py-2 px-4 rounded-md font-medium">
+                                    Entrar
+                                </button>
+                            </form>
+                            <p class="mt-4 text-center">
+                                <a href="#" class="text-4fd1c5 hover:underline" id="forgotPassword">Esqueceu a senha?</a>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Slide de Cadastro -->
+                    <div class="swiper-slide">
+                        <div class="w-full max-w-md" data-tilt>
+                            <h2 class="text-3xl font-bold text-4fd1c5 mb-6 text-center">Cadastro</h2>
+                            <form id="signupForm" class="space-y-6">
+                                <div class="input-group">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="signupName" name="name" class="w-full p-2 rounded-md" placeholder="Seu nome" required>
+                                </div>
+                                <div class="input-group">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="signupEmail" name="email" class="w-full p-2 rounded-md" placeholder="seu@email.com" required>
+                                </div>
+                                <div class="input-group">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="signupPassword" name="password" class="w-full p-2 rounded-md" placeholder="Senha" required>
+                                </div>
+                                <button type="submit" class="w-full btn-primary py-2 px-4 rounded-md font-medium">
+                                    Cadastrar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://unpkg.com/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script>
+        // Inicialização do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
+            authDomain: "b-code-881b2.firebaseapp.com",
+            projectId: "b-code-881b2",
+            storageBucket: "b-code-881b2.firebasestorage.app",
+            messagingSenderId: "199379425544",
+            appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
+            measurementId: "G-9FEKL6WX7C"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Inicialização do Swiper
+        const swiper = new Swiper('.swiper-container', {
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+        });
+
+        // Configuração da cena 3D
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('scene-container').appendChild(renderer.domElement);
+
+        // Criar partículas
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCnt = 5000;
+        const posArray = new Float32Array(particlesCnt * 3);
+
+        for(let i = 0; i < particlesCnt * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 5;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.005,
+            color: 0x4fd1c5
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 3;
+
+        // Animação
+        function animate() {
+            requestAnimationFrame(animate);
+            particlesMesh.rotation.y += 0.001;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Redimensionar
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Inicialização do Vanilla-tilt
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+            max: 25,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.5,
+        });
+
+        // Animações GSAP
+        gsap.from(".glass-effect", {duration: 1, opacity: 0, y: 50, ease: "power3.out"});
+        gsap.from("h2", {duration: 0.8, opacity: 0, y: 20, ease: "back.out(1.7)", stagger: 0.2});
+        gsap.from("form", {duration: 0.8, opacity: 0, y: 20, ease: "power2.out", delay: 0.5});
+
+        // Firebase Auth
+        const auth = firebase.auth();
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    console.log('Login successful', userCredential.user);
+                    // Redirect to dashboard or show success message
+                })
+                .catch((error) => {
+                    console.error('Login error', error);
+                    // Show error message to user
+                });
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    console.log('Signup successful', userCredential.user);
+                    // Redirect to dashboard or show success message
+                })
+                .catch((error) => {
+                    console.error('Signup error', error);
+                    // Show error message to user
+                });
+        });
+
+        document.getElementById('forgotPassword').addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            if (email) {
+                auth.sendPasswordResetEmail(email)
+                    .then(() => {
+                        console.log('Password reset email sent');
+                        // Show success message to user
+                    })
+                    .catch((error) => {
+                        console.error('Error sending password reset email', error);
+                        // Show error message to user
+                    });
+            } else {
+                console.log('Please enter your email first');
+                // Show message to user to enter email
+            }
+        });
+    </script>
+</body>
+</html>
