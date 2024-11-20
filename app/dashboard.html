@@ -1,1 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B-Code Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" rel="stylesheet">
+    <link href="app.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white dark:bg-gray-800 shadow-md hidden md:block">
+            <div class="p-4">
+                <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-400">B-Code</h1>
+            </div>
+            <nav class="mt-4">
+                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
+                    <i class="fas fa-code mr-2"></i> Laboratório de Código
+                </a>
+                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
+                    <i class="fas fa-users mr-2"></i> Social
+                </a>
+                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
+                    <i class="fas fa-envelope mr-2"></i> Mensagens
+                </a>
+                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
+                    <i class="fas fa-project-diagram mr-2"></i> Projetos
+                </a>
+                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
+                    <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                </a>
+            </nav>
+        </aside>
 
+        <!-- Main content -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto">
+            <header class="bg-white dark:bg-gray-800 shadow-md p-4 flex justify-between items-center">
+                <button id="menu-toggle" class="md:hidden text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="flex items-center">
+                    <input type="text" placeholder="Pesquisar..." class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white">
+                    <button id="theme-toggle" class="ml-4 text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="p-6">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+                    <div class="flex items-center mb-4">
+                        <img id="profile-picture" src="https://via.placeholder.com/100" alt="Foto de perfil" class="w-20 h-20 rounded-full mr-4">
+                        <div>
+                            <h2 id="username" class="text-2xl font-bold">Carregando...</h2>
+                            <p id="bio" class="text-gray-600 dark:text-gray-400">Carregando...</p>
+                            <p id="profile-status" class="text-sm text-gray-500 dark:text-gray-400">Carregando...</p>
+                        </div>
+                    </div>
+                    <button id="edit-profile" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        <i class="fas fa-edit mr-2"></i> Editar Perfil
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-4">Estatísticas</h3>
+                        <canvas id="stats-chart"></canvas>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-bold mb-4">Projetos Recentes</h3>
+                        <ul id="recent-projects" class="space-y-2">
+                            <li>Carregando projetos...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-96">
+            <h2 class="text-2xl font-bold mb-4">Configurações Avançadas</h2>
+            <ul class="space-y-4">
+                <li>
+                    <strong>UID:</strong> <span id="user-uid">Carregando...</span>
+                </li>
+                <li>
+                    <button id="change-theme" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        Alterar Tema
+                    </button>
+                </li>
+                <li>
+                    <button id="manage-notifications" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        Gerenciar Notificações
+                    </button>
+                </li>
+                <li>
+                    <button id="connect-socials" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        Conectar Redes Sociais
+                    </button>
+                </li>
+                <li>
+                    <button id="change-password" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        Alterar Senha
+                    </button>
+                </li>
+                <li>
+                    <button id="enable-2fa" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                        Ativar 2FA
+                    </button>
+                </li>
+                <li>
+                    <button id="delete-account" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                        Excluir Conta
+                    </button>
+                </li>
+                <li>
+                    <button id="export-data" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+                        Exportar Dados
+                    </button>
+                </li>
+            </ul>
+            <button id="close-settings" class="mt-6 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">
+                Fechar
+            </button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
