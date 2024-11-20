@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação de Autenticação | B-Code</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        #scene-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-black text-white font-sans">
+    <div id="scene-container"></div>
+
+    <div class="content flex items-center justify-center min-h-screen">
+        <div class="glass-effect p-8 max-w-md w-full text-center">
+            <img src="https://via.placeholder.com/150x50.png?text=B-Code" alt="B-Code Logo" class="mx-auto mb-6">
+            <div id="loading" class="mb-6">
+                <i class="fas fa-atom fa-spin text-4xl text-blue-400"></i>
+                <p class="mt-2">Verificando autenticação...</p>
+            </div>
+            <div id="warning" class="hidden">
+                <i class="fas fa-exclamation-triangle text-4xl text-yellow-400 mb-4"></i>
+                <h2 class="text-xl font-bold mb-4">Aviso de Desenvolvimento</h2>
+                <p class="mb-6">Este aplicativo está em fase de desenvolvimento. Alguns sistemas podem apresentar falhas ou instabilidades.</p>
+                <button id="acceptBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+                    Entendi e desejo continuar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
+            authDomain: "b-code-881b2.firebaseapp.com",
+            projectId: "b-code-881b2",
+            storageBucket: "b-code-881b2.firebasestorage.app",
+            messagingSenderId: "199379425544",
+            appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
+            measurementId: "G-9FEKL6WX7C"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Configuração da cena 3D
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('scene-container').appendChild(renderer.domElement);
+
+        // Criar estrelas
+        const starsGeometry = new THREE.BufferGeometry();
+        const starsMaterial = new THREE.PointsMaterial({color: 0xFFFFFF, size: 0.1});
+
+        const starsVertices = [];
+        for (let i = 0; i < 10000; i++) {
+            const x = (Math.random() - 0.5) * 2000;
+            const y = (Math.random() - 0.5) * 2000;
+            const z = -Math.random() * 2000;
+            starsVertices.push(x, y, z);
+        }
+
+        starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+        const starField = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(starField);
+
+        camera.position.z = 5;
+
+        // Animação
+        function animate() {
+            requestAnimationFrame(animate);
+            starField.rotation.y += 0.0002;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Redimensionar
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Verificar autenticação
+        function checkAuth() {
+            firebase.auth().onAuthStateChanged(function(user) {
+                setTimeout(() => {
+                    document.getElementById('loading').classList.add('hidden');
+                    if (user) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        document.getElementById('warning').classList.remove('hidden');
+                    }
+                }, 2000); // Simula um tempo de carregamento
+            });
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', (event) => {
+            checkAuth();
+
+            document.getElementById('acceptBtn').addEventListener('click', function() {
+                window.location.href = 'auth.html';
+            });
+        });
+    </script>
+</body>
+</html>
