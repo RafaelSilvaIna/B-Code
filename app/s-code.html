@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S-Code - Área Social</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    <style>
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        body.modal-active {
+            overflow-x: hidden;
+            overflow-y: visible !important;
+        }
+        .gradient-bg {
+            background: linear-gradient(45deg, #3490dc, #6574cd, #9561e2);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div>
+                        <a href="#" class="flex items-center py-4 px-2">
+                            <span class="font-semibold text-gray-500 text-lg">S-Code</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="dashboard.html" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-gray-100 hover:text-gray-900 transition duration-300">Dashboard</a>
+                    <a href="#" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-gray-100 hover:text-gray-900 transition duration-300">Perfil</a>
+                    <a href="#" class="py-2 px-2 font-medium text-gray-500 rounded hover:bg-gray-100 hover:text-gray-900 transition duration-300">Configurações</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button class="outline-none mobile-menu-button">
+                        <svg class="w-6 h-6 text-gray-500 hover:text-gray-900"
+                            x-show="!showMenu"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="hidden mobile-menu">
+            <ul class="">
+                <li><a href="dashboard.html" class="block text-sm px-2 py-4 hover:bg-gray-100 transition duration-300">Dashboard</a></li>
+                <li><a href="#" class="block text-sm px-2 py-4 hover:bg-gray-100 transition duration-300">Perfil</a></li>
+                <li><a href="#" class="block text-sm px-2 py-4 hover:bg-gray-100 transition duration-300">Configurações</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <div id="posts" class="space-y-6">
+            <!-- Posts serão carregados aqui dinamicamente -->
+        </div>
+    </div>
+
+    <!-- Botão para adicionar novo post -->
+    <button id="addPostBtn" class="fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition duration-300">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Modal para adicionar novo post -->
+    <div id="addPostModal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold">Novo Post</p>
+                    <div class="modal-close cursor-pointer z-50">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <form id="newPostForm">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="postTitle">
+                            Título
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="postTitle" type="text" placeholder="Título do post">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="postContent">
+                            Conteúdo
+                        </label>
+                        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="postContent" rows="4" placeholder="Conteúdo do post"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="postFile">
+                            Arquivo (imagem, vídeo ou código)
+                        </label>
+                        <input type="file" id="postFile" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div class="flex justify-end pt-2">
+                        <button type="submit" class="px-4 bg-blue-500 p-3 rounded-lg text-white hover:bg-blue-400">Publicar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para visualizar perfil -->
+    <div id="profileModal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+            <div class="modal-content py-4 text-left px-6">
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold">Perfil do Usuário</p>
+                    <div class="modal-close cursor-pointer z-50">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div id="profileContent">
+                    <!-- Conteúdo do perfil será carregado aqui dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
+            authDomain: "b-code-881b2.firebaseapp.com",
+            databaseURL: "https://b-code-881b2-default-rtdb.firebaseio.com",
+            projectId: "b-code-881b2",
+            storageBucket: "b-code-881b2.firebasestorage.app",
+            messagingSenderId: "199379425544",
+            appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
+            measurementId: "G-9FEKL6WX7C"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                loadPosts();
+            } else {
+                console.log("No user is signed in.");
+                // Redirect to login page or show login prompt
+                // window.location.href = 'login.html';
+            }
+        });
+
+        // Carregar posts
+        function loadPosts() {
+            const postsRef = ref(db, 'posts');
+            onValue(postsRef, (snapshot) => {
+                const data = snapshot.val();
+                const postsContainer = document.getElementById('posts');
+                postsContainer.innerHTML = '';
+                for (let id in data) {
+                    const post = data[id];
+                    const postElement = createPostElement(id, post);
+                    postsContainer.appendChild(postElement);
+                }
+            });
+        }
+
+        // Criar elemento de post
+        function createPostElement(id, post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'bg-white rounded-lg shadow-md p-6';
+            postDiv.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <img src="${post.authorAvatar || 'https://via.placeholder.com/40'}" alt="${post.authorName}" class="w-10 h-10 rounded-full mr-4">
+                    <div>
+                        <h3 class="font-bold text-lg">${post.title}</h3>
+                        <p class="text-gray-600">por <a href="#" class="text-blue-500 hover:underline author-profile" data-author-id="${post.authorId}">${post.authorName}</a></p>
+                    </div>
+                </div>
+                <p class="text-gray-700 mb-4">${post.content}</p>
+                ${post.fileUrl ? `<img src="${post.fileUrl}" alt="Post attachment" class="w-full h-auto rounded-lg mb-4">` : ''}
+                <div class="flex items-center justify-between">
+                    <button class="text-blue-500 hover:text-blue-700 comment-btn" data-post-id="${id}">
+                        <i class="far fa-comment mr-2"></i>Comentar
+                    </button>
+                    <span class="text-gray-500">${new Date(post.timestamp).toLocaleString()}</span>
+                </div>
+                <div class="mt-4 comments-container" id="comments-${id}"></div>
+                <form class="mt-4 comment-form hidden" data-post-id="${id}">
+                    <textarea class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none" rows="2" placeholder="Adicione um comentário..."></textarea>
+                    <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Enviar</button>
+                </form>
+            `;
+
+            // Adicionar event listener para o botão de comentário
+            const commentBtn = postDiv.querySelector('.comment-btn');
+            commentBtn.addEventListener('click', () => toggleCommentForm(id));
+
+            // Adicionar event listener para o formulário de comentário
+            const commentForm = postDiv.querySelector('.comment-form');
+            commentForm.addEventListener('submit', (e) => submitComment(e, id));
+
+            // Adicionar event listener para o link do perfil do autor
+            const authorProfileLink = postDiv.querySelector('.author-profile');
+            authorProfileLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                openProfileModal(post.authorId);
+            });
+
+            // Carregar comentários existentes
+            loadComments(id);
+
+            return postDiv;
+        }
+
+        // Toggle do formulário de comentários
+        function toggleCommentForm(postId) {
+            const form = document.querySelector(`.comment-form[data-post-id="${postId}"]`);
+            form.classList.toggle('hidden');
+        }
+
+        // Enviar comentário
+        function submitComment(e, postId) {
+            e.preventDefault();
+            const form = e.target;
+            const content = form.querySelector('textarea').value;
+            if (content.trim() === '') return;
+
+            const commentsRef = ref(db, `comments/${postId}`);
+            push(commentsRef, {
+                content: content,
+                authorId: currentUser.uid,
+                authorName: currentUser.displayName || 'Usuário Anônimo',
+                timestamp: Date.now()
+            });
+
+            form.reset();
+            form.classList.add('hidden');
+        }
+
+        // Carregar comentários
+        function loadComments(postId) {
+            const commentsRef = ref(db, `comments/${postId}`);
+            onValue(commentsRef, (snapshot) => {
+                const comments = snapshot.val();
+                const commentsContainer = document.getElementById(`comments-${postId}`);
+                commentsContainer.innerHTML = '';
+                for (let id in comments) {
+                    const comment = comments[id];
+                    const commentElement = createCommentElement(comment);
+                    commentsContainer.appendChild(commentElement);
+                }
+            });
+        }
+
+        // Criar elemento de comentário
+        function createCommentElement(comment) {
+            const commentDiv = document.createElement('div');
+            commentDiv.className = 'bg-gray-100 rounded-lg p-3 mt-2';
+            commentDiv.innerHTML = `
+                <p class="text-gray-800">${comment.content}</p>
+                <p class="text-gray-600 text-sm mt-1">por ${comment.authorName} - ${new Date(comment.timestamp).toLocaleString()}</p>
+            `;
+            return commentDiv;
+        }
+
+        // Abrir modal de perfil
+        function openProfileModal(userId) {
+            const profileModal = document.getElementById('profileModal');
+            const profileContent = document.getElementById('profileContent');
+            profileContent.innerHTML = '<p class="text-center">Carregando...</p>';
+            profileModal.classList.remove('opacity-0', 'pointer-events-none');
+
+            const userRef = ref(db, `users/${userId}`);
+            onValue(userRef, (snapshot) => {
+                const userData = snapshot.val();
+                if (userData) {
+                    profileContent.innerHTML = `
+                        <div class="text-center">
+                            <img src="${userData.profilePic || 'https://via.placeholder.com/100'}" alt="${userData.username}" class="w-24 h-24 rounded-full mx-auto mb-4">
+                            <h2 class="text-2xl font-bold mb-2">${userData.username}</h2>
+                            <p class="text-gray-600 mb-4">${userData.bio || 'Nenhuma biografia disponível.'}</p>
+                            <div class="flex justify-center space-x-4">
+                                ${userData.socialLinks?.twitter ? `<a href="${userData.socialLinks.twitter}" target="_blank" class="text-blue-400 hover:text-blue-600"><i class="fab fa-twitter fa-2x"></i></a>` : ''}
+                                ${userData.socialLinks?.github ? `<a href="${userData.socialLinks.github}" target="_blank" class="text-gray-800 hover:text-gray-600"><i class="fab fa-github fa-2x"></i></a>` : ''}
+                                ${userData.socialLinks?.linkedin ? `<a href="${userData.socialLinks.linkedin}" target="_blank" class="text-blue-700 hover:text-blue-900"><i class="fab fa-linkedin fa-2x"></i></a>` : ''}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    profileContent.innerHTML = '<p class="text-center">Perfil não encontrado.</p>';
+                }
+            });
+        }
+
+        // Event listeners para os modais
+        document.querySelectorAll('.modal-overlay, .modal-close').forEach(elem => {
+            elem.addEventListener('click', closeModals);
+        });
+
+        function closeModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+            });
+        }
+
+        // Adicionar novo post
+        const addPostBtn = document.getElementById('addPostBtn');
+        const addPostModal = document.getElementById('addPostModal');
+        const newPostForm = document.getElementById('newPostForm');
+
+        addPostBtn.addEventListener('click', () => {
+            addPostModal.classList.remove('opacity-0', 'pointer-events-none');
+        });
+
+        newPostForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('postTitle').value;
+            const content = document.getElementById('postContent').value;
+            const file = document.getElementById('postFile').files[0];
+
+            let fileUrl = null;
+            if (file) {
+                fileUrl = await uploadFile(file);
+            }
+
+            const postsRef = ref(db, 'posts');
+            push(postsRef, {
+                title: title,
+                content: content,
+                fileUrl: fileUrl,
+                authorId: currentUser.uid,
+                authorName: currentUser.displayName || 'Usuário Anônimo',
+                authorAvatar: currentUser.photoURL,
+                timestamp: Date.now()
+            });
+
+            newPostForm.reset();
+            addPostModal.classList.add('opacity-0', 'pointer-events-none');
+        });
+
+        // Função para fazer upload de arquivo como Base64
+        async function uploadFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    resolve(reader.result);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Toggle do menu mobile
+        const btn = document.querySelector("button.mobile-menu-button");
+        const menu = document.querySelector(".mobile-menu");
+
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+        });
+    </script>
+</body>
+</html>
