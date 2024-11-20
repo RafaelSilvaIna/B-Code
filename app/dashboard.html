@@ -1,79 +1,117 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B-Code Dashboard</title>
+    <title>Dashboard do Usuário</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" rel="stylesheet">
-    <link href="app.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(45deg, #3490dc, #6574cd, #9561e2);
+            background-size: 200% 200%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .banner {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
+<body class="bg-gray-100 font-sans">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white dark:bg-gray-800 shadow-md hidden md:block">
-            <div class="p-4">
-                <h1 class="text-2xl font-bold text-blue-600 dark:text-blue-400">B-Code</h1>
-            </div>
-            <nav class="mt-4">
-                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
-                    <i class="fas fa-code mr-2"></i> Laboratório de Código
-                </a>
-                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
-                    <i class="fas fa-users mr-2"></i> Social
-                </a>
-                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
-                    <i class="fas fa-envelope mr-2"></i> Mensagens
-                </a>
-                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
-                    <i class="fas fa-project-diagram mr-2"></i> Projetos
-                </a>
-                <a href="#" class="block py-2 px-4 text-gray-700 dark:text-gray-300 hover:bg-blue-500 hover:text-white">
-                    <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
-                </a>
+        <aside class="w-64 bg-gray-800 text-white p-6">
+            <h2 class="text-2xl font-bold mb-6">Menu</h2>
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-flask mr-2"></i>Laboratório de Código</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-project-diagram mr-2"></i>Projetos</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-users mr-2"></i>S-Code</a></li>
+                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-envelope mr-2"></i>Mensagens</a></li>
+                </ul>
             </nav>
         </aside>
 
-        <!-- Main content -->
-        <main class="flex-1 overflow-x-hidden overflow-y-auto">
-            <header class="bg-white dark:bg-gray-800 shadow-md p-4 flex justify-between items-center">
-                <button id="menu-toggle" class="md:hidden text-gray-600 dark:text-gray-300">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="flex items-center">
-                    <input type="text" placeholder="Pesquisar..." class="px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white">
-                    <button id="theme-toggle" class="ml-4 text-gray-600 dark:text-gray-300">
-                        <i class="fas fa-moon"></i>
-                    </button>
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="gradient-bg banner" id="userBanner"></div>
+            <div class="container mx-auto px-4 py-8">
+                <div class="bg-white rounded-lg shadow-lg p-6 -mt-16 relative z-10">
+                    <img src="" alt="Profile Picture" class="profile-pic mx-auto -mt-20 mb-4" id="userProfilePic">
+                    <h1 class="text-3xl font-bold text-center mb-2" id="userName">Carregando...</h1>
+                    <p class="text-gray-600 text-center mb-4" id="userFullName">Carregando...</p>
+                    <div class="text-center mb-6">
+                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm" id="userStatus">Online</span>
+                    </div>
+                    <p class="text-gray-700 text-center mb-6" id="userBio">Carregando...</p>
+                    <div class="flex justify-center space-x-4 mb-6">
+                        <a href="#" class="text-blue-500 hover:text-blue-700"><i class="fab fa-twitter fa-2x"></i></a>
+                        <a href="#" class="text-blue-700 hover:text-blue-900"><i class="fab fa-linkedin fa-2x"></i></a>
+                        <a href="#" class="text-gray-800 hover:text-black"><i class="fab fa-github fa-2x"></i></a>
+                    </div>
+                    <div class="text-center">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition" id="editProfileBtn">
+                            Editar Perfil
+                        </button>
+                    </div>
                 </div>
-            </header>
 
-            <div class="p-6">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-                    <div class="flex items-center mb-4">
-                        <img id="profile-picture" src="https://via.placeholder.com/100" alt="Foto de perfil" class="w-20 h-20 rounded-full mr-4">
-                        <div>
-                            <h2 id="username" class="text-2xl font-bold">Carregando...</h2>
-                            <p id="bio" class="text-gray-600 dark:text-gray-400">Carregando...</p>
-                            <p id="profile-status" class="text-sm text-gray-500 dark:text-gray-400">Carregando...</p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">Estatísticas</h2>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center">
+                                <p class="text-4xl font-bold text-blue-500">42</p>
+                                <p class="text-gray-600">Projetos</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl font-bold text-green-500">1337</p>
+                                <p class="text-gray-600">Contribuições</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl font-bold text-purple-500">15</p>
+                                <p class="text-gray-600">Badges</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-4xl font-bold text-yellow-500">4.9</p>
+                                <p class="text-gray-600">Avaliação</p>
+                            </div>
                         </div>
                     </div>
-                    <button id="edit-profile" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        <i class="fas fa-edit mr-2"></i> Editar Perfil
-                    </button>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                        <h3 class="text-xl font-bold mb-4">Estatísticas</h3>
-                        <canvas id="stats-chart"></canvas>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-                        <h3 class="text-xl font-bold mb-4">Projetos Recentes</h3>
-                        <ul id="recent-projects" class="space-y-2">
-                            <li>Carregando projetos...</li>
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">Atividade Recente</h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <i class="fas fa-code-branch text-blue-500 mr-2"></i>
+                                <span>Contribuiu para o projeto XYZ</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-trophy text-yellow-500 mr-2"></i>
+                                <span>Ganhou a badge "Mestre do Código"</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-comment text-green-500 mr-2"></i>
+                                <span>Comentou no projeto ABC</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -82,60 +120,151 @@
     </div>
 
     <!-- Settings Modal -->
-    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-96">
-            <h2 class="text-2xl font-bold mb-4">Configurações Avançadas</h2>
-            <ul class="space-y-4">
-                <li>
-                    <strong>UID:</strong> <span id="user-uid">Carregando...</span>
-                </li>
-                <li>
-                    <button id="change-theme" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        Alterar Tema
-                    </button>
-                </li>
-                <li>
-                    <button id="manage-notifications" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        Gerenciar Notificações
-                    </button>
-                </li>
-                <li>
-                    <button id="connect-socials" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        Conectar Redes Sociais
-                    </button>
-                </li>
-                <li>
-                    <button id="change-password" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        Alterar Senha
-                    </button>
-                </li>
-                <li>
-                    <button id="enable-2fa" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
-                        Ativar 2FA
-                    </button>
-                </li>
-                <li>
-                    <button id="delete-account" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-                        Excluir Conta
-                    </button>
-                </li>
-                <li>
-                    <button id="export-data" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                        Exportar Dados
-                    </button>
-                </li>
-            </ul>
-            <button id="close-settings" class="mt-6 bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">
-                Fechar
-            </button>
+    <div id="settingsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-4">Configurações</h2>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="uid">
+                    UID
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="uid" type="text" readonly>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+                    Nome de Usuário
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="fullName">
+                    Nome Completo
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="fullName" type="text">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="theme">
+                    Tema
+                </label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="theme">
+                    <option value="light">Claro</option>
+                    <option value="dark">Escuro</option>
+                </select>
+            </div>
+            <div class="flex items-center justify-between">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" id="saveSettingsBtn">
+                    Salvar
+                </button>
+                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" id="closeSettingsBtn">
+                    Fechar
+                </button>
+            </div>
         </div>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
+            authDomain: "b-code-881b2.firebaseapp.com",
+            databaseURL: "https://b-code-881b2-default-rtdb.firebaseio.com",
+            projectId: "b-code-881b2",
+            storageBucket: "b-code-881b2.firebasestorage.app",
+            messagingSenderId: "199379425544",
+            appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
+            measurementId: "G-9FEKL6WX7C"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                loadUserData(user.uid);
+            } else {
+                console.log("No user is signed in.");
+            }
+        });
+
+        function loadUserData(uid) {
+            const userRef = ref(db, 'users/' + uid);
+            onValue(userRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('userName').textContent = data.username || 'Nome de Usuário';
+                    document.getElementById('userFullName').textContent = data.fullName || 'Nome Completo';
+                    document.getElementById('userBio').textContent = data.bio || 'Bio do usuário...';
+                    document.getElementById('userProfilePic').src = data.profilePic || 'https://via.placeholder.com/150';
+                    document.getElementById('userBanner').style.backgroundImage = `url(${data.banner || 'https://via.placeholder.com/1000x200'})`;
+                }
+            });
+        }
+
+        document.getElementById('editProfileBtn').addEventListener('click', () => {
+            window.location.href = 'editprofile.html';
+        });
+
+        const settingsModal = document.getElementById('settingsModal');
+        const openSettingsBtn = document.createElement('button');
+        openSettingsBtn.innerHTML = '<i class="fas fa-cog"></i>';
+        openSettingsBtn.className = 'fixed bottom-4 right-4 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition';
+        document.body.appendChild(openSettingsBtn);
+
+        openSettingsBtn.addEventListener('click', () => {
+            settingsModal.classList.remove('hidden');
+            settingsModal.classList.add('flex');
+            if (currentUser) {
+                document.getElementById('uid').value = currentUser.uid;
+                loadUserSettings(currentUser.uid);
+            }
+        });
+
+        document.getElementById('closeSettingsBtn').addEventListener('click', () => {
+            settingsModal.classList.add('hidden');
+            settingsModal.classList.remove('flex');
+        });
+
+        document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+            if (currentUser) {
+                const username = document.getElementById('username').value;
+                const fullName = document.getElementById('fullName').value;
+                const theme = document.getElementById('theme').value;
+
+                const userRef = ref(db, 'users/' + currentUser.uid);
+                set(userRef, {
+                    username: username,
+                    fullName: fullName,
+                    theme: theme
+                });
+
+                settingsModal.classList.add('hidden');
+                settingsModal.classList.remove('flex');
+            }
+        });
+
+        function loadUserSettings(uid) {
+            const userRef = ref(db, 'users/' + uid);
+            onValue(userRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('username').value = data.username || '';
+                    document.getElementById('fullName').value = data.fullName || '';
+                    document.getElementById('theme').value = data.theme || 'light';
+                }
+            });
+        }
+
+        // Adicione animações e efeitos
+        AOS.init();
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
-    <script src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 </body>
-</html>
+    </html>
