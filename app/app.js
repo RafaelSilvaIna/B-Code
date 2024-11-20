@@ -1,6 +1,14 @@
 // Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    // Your Firebase configuration here
+  apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
+  authDomain: "b-code-881b2.firebaseapp.com",
+  databaseURL: "https://b-code-881b2-default-rtdb.firebaseio.com",
+  projectId: "b-code-881b2",
+  storageBucket: "b-code-881b2.firebasestorage.app",
+  messagingSenderId: "199379425544",
+  appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
+  measurementId: "G-9FEKL6WX7C"
 };
 
 // Initialize Firebase
