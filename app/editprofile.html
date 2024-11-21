@@ -1,292 +1,343 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil</title>
+    <title>B-Code - Editar Perfil</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <style>
-        .gradient-bg {
-            background: linear-gradient(45deg, #3490dc, #6574cd, #9561e2);
-            background-size: 200% 200%;
-            animation: gradientBG 15s ease infinite;
-        }
-        @keyframes gradientBG {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
+        #editor {
+            height: 200px;
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8 text-center">Editar Perfil</h1>
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <form id="profileForm">
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="profilePic">
-                        Foto de Perfil
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h1 class="text-3xl font-bold mb-6">Editar Perfil</h1>
+        <form id="editProfileForm" class="bg-white rounded-lg shadow-md p-6">
+            <!-- Banner -->
+            <div class="mb-4">
+                <label for="banner" class="block text-sm font-medium text-gray-700 mb-2">Banner</label>
+                <input type="file" id="banner" accept="image/*" class="w-full p-2 border rounded">
+                <div class="mt-2">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" id="useAnimatedBanner" class="form-checkbox">
+                        <span class="ml-2">Usar banner animado</span>
                     </label>
-                    <div class="flex items-center">
-                        <img id="profilePicPreview" src="https://via.placeholder.com/150" alt="Profile Picture" class="w-32 h-32 rounded-full object-cover mr-4">
-                        <div>
-                            <input type="file" id="profilePicInput" accept="image/*" class="hidden">
-                            <button type="button" id="changeProfilePic" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Alterar Foto
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="bannerPic">
-                        Imagem de Banner
-                    </label>
-                    <div class="relative">
-                        <img id="bannerPicPreview" src="https://via.placeholder.com/1000x200" alt="Banner Picture" class="w-full h-48 object-cover rounded-lg">
-                        <input type="file" id="bannerPicInput" accept="image/*" class="hidden">
-                        <button type="button" id="changeBannerPic" class="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Alterar Banner
-                        </button>
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                        Nome de Usuário
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Seu nome de usuário">
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fullName">
-                        Nome Completo
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="fullName" type="text" placeholder="Seu nome completo">
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="bio">
-                        Biografia
-                    </label>
-                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="bio" rows="4" placeholder="Conte-nos sobre você"></textarea>
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="twitter">
-                        Twitter
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="twitter" type="text" placeholder="Seu perfil do Twitter">
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="linkedin">
-                        LinkedIn
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="linkedin" type="text" placeholder="Seu perfil do LinkedIn">
-                </div>
-
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="github">
-                        GitHub
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="github" type="text" placeholder="Seu perfil do GitHub">
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Salvar Alterações
-                    </button>
-                    <a href="dashboard.html" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
-                        Voltar para o Dashboard
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Image Cropper Modal -->
-    <div id="cropperModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
-                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
-            </div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
-                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                Ajustar Imagem
-                            </h3>
-                            <div class="mt-2">
-                                <div id="cropperContainer">
-                                    <img id="cropperImage" src="" alt="Image to crop">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" id="saveCroppedImage" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Salvar
-                    </button>
-                    <button type="button" id="cancelCrop" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Cancelar
-                    </button>
                 </div>
             </div>
-        </div>
+
+            <!-- Foto de Perfil -->
+            <div class="mb-4">
+                <label for="profilePic" class="block text-sm font-medium text-gray-700 mb-2">Foto de Perfil</label>
+                <input type="file" id="profilePic" accept="image/*" class="w-full p-2 border rounded">
+                <div class="mt-2">
+                    <label for="frameStyle" class="block text-sm font-medium text-gray-700 mb-2">Estilo da Moldura</label>
+                    <select id="frameStyle" class="w-full p-2 border rounded">
+                        <option value="1">Moldura 1 (Dourada)</option>
+                        <option value="2">Moldura 2 (Prata)</option>
+                        <option value="3">Moldura 3 (Bronze)</option>
+                        <option value="4">Moldura 4 (Vermelha)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Informações Básicas -->
+            <div class="mb-4">
+                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">Nome Completo</label>
+                <input type="text" id="fullName" class="w-full p-2 border rounded">
+            </div>
+
+            <div class="mb-4">
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Nome de Usuário</label>
+                <input type="text" id="username" class="w-full p-2 border rounded">
+            </div>
+
+            <div class="mb-4">
+                <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">Gênero</label>
+                <select id="gender" class="w-full p-2 border rounded">
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro</option>
+                    <option value="Prefiro não dizer">Prefiro não dizer</option>
+                </select>
+            </div>
+
+            <!-- Biografia -->
+            <div class="mb-4">
+                <label for="editor" class="block text-sm font-medium text-gray-700 mb-2">Biografia</label>
+                <div id="editor"></div>
+            </div>
+
+            <!-- Background Personalizado -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Background Personalizado</label>
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="backgroundType" value="color" checked class="form-radio">
+                        <span class="ml-2">Cor Sólida</span>
+                    </label>
+                    <label class="inline-flex items-center ml-4">
+                        <input type="radio" name="backgroundType" value="gradient" class="form-radio">
+                        <span class="ml-2">Gradiente</span>
+                    </label>
+                    <label class="inline-flex items-center ml-4">
+                        <input type="radio" name="backgroundType" value="3d" class="form-radio">
+                        <span class="ml-2">3D Animado</span>
+                    </label>
+                </div>
+                <div id="colorPicker" class="mt-2">
+                    <input type="color" id="backgroundColor" class="w-full p-2 border rounded">
+                </div>
+                <div id="gradientPicker" class="mt-2 hidden">
+                    <input type="color" id="gradientColor1" class="w-1/2 p-2 border rounded">
+                    <input type="color" id="gradientColor2" class="w-1/2 p-2 border rounded">
+                </div>
+                <div id="3dPicker" class="mt-2 hidden">
+                    <select id="3dShape" class="w-full p-2 border rounded">
+                        <option value="cube">Cubo</option>
+                        <option value="sphere">Esfera</option>
+                        <option value="torus">Torus</option>
+                    </select>
+                    <input type="color" id="3dColor" class="w-full mt-2 p-2 border rounded">
+                </div>
+            </div>
+
+            <!-- Links Sociais -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Links Sociais</label>
+                <div id="socialLinksContainer"></div>
+                <button type="button" id="addSocialLink" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Adicionar Link Social</button>
+            </div>
+
+            <!-- Projetos -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Projetos</label>
+                <div id="projectsContainer"></div>
+                <button type="button" id="addProject" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Adicionar Projeto</button>
+            </div>
+
+            <!-- Informações de Contato -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                <input type="email" id="email" class="w-full p-2 border rounded">
+            </div>
+
+            <div class="mb-4">
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Telefone</label>
+                <input type="tel" id="phone" class="w-full p-2 border rounded">
+            </div>
+
+            <!-- Informações de Trabalho -->
+            <div class="mb-4">
+                <label for="work" class="block text-sm font-medium text-gray-700 mb-2">Experiência Profissional</label>
+                <textarea id="work" rows="3" class="w-full p-2 border rounded"></textarea>
+            </div>
+
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Salvar Alterações</button>
+        </form>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-    <script>
-        // Initialize Firebase
+    <script type="module">
+        // Importar Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+
+        // Configuração do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
             authDomain: "b-code-881b2.firebaseapp.com",
             databaseURL: "https://b-code-881b2-default-rtdb.firebaseio.com",
             projectId: "b-code-881b2",
-            storageBucket: "b-code-881b2.firebaseapp.com",
+            storageBucket: "b-code-881b2.firebasestorage.app",
             messagingSenderId: "199379425544",
             appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
             measurementId: "G-9FEKL6WX7C"
         };
 
-        firebase.initializeApp(firebaseConfig);
+        // Inicializar Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
 
-        let currentUser = null;
-        let cropper = null;
-        let currentImageType = null;
+        // Inicializar Quill
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
 
-        firebase.auth().onAuthStateChanged((user) => {
+        // Carregar dados do perfil
+        function loadProfileData(userId) {
+            const userRef = ref(database, `users/${userId}`);
+            onValue(userRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('fullName').value = data.fullName || '';
+                    document.getElementById('username').value = data.username || '';
+                    document.getElementById('gender').value = data.gender || '';
+                    document.getElementById('email').value = data.email || '';
+                    document.getElementById('phone').value = data.phone || '';
+                    document.getElementById('work').value = data.work || '';
+                    document.getElementById('frameStyle').value = data.frameStyle || '1';
+                    quill.root.innerHTML = data.bio || '';
+
+                    // Carregar links sociais
+                    if (data.socialLinks) {
+                        Object.entries(data.socialLinks).forEach(([platform, url]) => {
+                            addSocialLinkField(platform, url);
+                        });
+                    }
+
+                    // Carregar projetos
+                    if (data.projects) {
+                        data.projects.forEach(project => {
+                            addProjectField(project);
+                        });
+                    }
+
+                    // Carregar configurações de background
+                    if (data.background3D) {
+                        document.querySelector('input[name="backgroundType"][value="3d"]').checked = true;
+                        document.getElementById('3dShape').value = data.background3D.shape || 'cube';
+                        document.getElementById('3dColor').value = data.background3D.color || '#00ff00';
+                        toggleBackgroundPickers();
+                    } else if (data.backgroundGradient) {
+                        document.querySelector('input[name="backgroundType"][value="gradient"]').checked = true;
+                        document.getElementById('gradientColor1').value = data.backgroundGradient.color1 || '#ffffff';
+                        document.getElementById('gradientColor2').value = data.backgroundGradient.color2 || '#000000';
+                        toggleBackgroundPickers();
+                    } else {
+                        document.getElementById('backgroundColor').value = data.backgroundColor || '#ffffff';
+                    }
+                }
+            });
+        }
+
+        // Adicionar campo de link social
+        function addSocialLinkField(platform = '', url = '') {
+            const container = document.getElementById('socialLinksContainer');
+            const linkField = document.createElement('div');
+            linkField.className = 'flex items-center mb-2';
+            linkField.innerHTML = `
+                <input type="text" placeholder="Plataforma" value="${platform}" class="w-1/3 p-2 border rounded mr-2">
+                <input type="url" placeholder="URL" value="${url}" class="w-1/2 p-2 border rounded mr-2">
+                <button type="button" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Remover</button>
+            `;
+            container.appendChild(linkField);
+
+            linkField.querySelector('button').addEventListener('click', () => {
+                container.removeChild(linkField);
+            });
+        }
+
+        // Adicionar campo de projeto
+        function addProjectField(project = {}) {
+            const container = document.getElementById('projectsContainer');
+            const projectField = document.createElement('div');
+            projectField.className = 'border p-4 rounded mb-4';
+            projectField.innerHTML = `
+                <input type="text" placeholder="Título" value="${project.title || ''}" class="w-full p-2 border rounded mb-2">
+                <input type="text" placeholder="Subtítulo" value="${project.subtitle || ''}" class="w-full p-2 border rounded mb-2">
+                <textarea placeholder="Descrição" class="w-full p-2 border rounded mb-2">${project.description || ''}</textarea>
+                <input type="url" placeholder="Link" value="${project.link || ''}" class="w-full p-2 border rounded mb-2">
+                <input type="file" accept="image/*" class="w-full p-2 border rounded mb-2">
+                <button type="button" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Remover Projeto</button>
+            `;
+            container.appendChild(projectField);
+
+            projectField.querySelector('button').addEventListener('click', () => {
+                container.removeChild(projectField);
+            });
+        }
+
+        // Toggle background pickers
+        function toggleBackgroundPickers() {
+            const backgroundType = document.querySelector('input[name="backgroundType"]:checked').value;
+            document.getElementById('colorPicker').style.display = backgroundType === 'color' ? 'block' : 'none';
+            document.getElementById('gradientPicker').style.display = backgroundType === 'gradient' ? 'block' : 'none';
+            document.getElementById('3dPicker').style.display = backgroundType === '3d' ? 'block' : 'none';
+        }
+
+        // Event Listeners
+        document.getElementById('addSocialLink').addEventListener('click', () => addSocialLinkField());
+        document.getElementById('addProject').addEventListener('click', () => addProjectField());
+        document.querySelectorAll('input[name="backgroundType"]').forEach(radio => {
+            radio.addEventListener('change', toggleBackgroundPickers);
+        });
+
+        // Salvar alterações
+        document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const userId = auth.currentUser.uid;
+            const updatedProfile = {
+                fullName: document.getElementById('fullName').value,
+                username: document.getElementById('username').value,
+                gender: document.getElementById('gender').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                work: document.getElementById('work').value,
+                frameStyle: document.getElementById('frameStyle').value,
+                bio: quill.root.innerHTML,
+                socialLinks: {},
+                projects: []
+            };
+
+            // Coletar links sociais
+            document.querySelectorAll('#socialLinksContainer > div').forEach(linkField => {
+                const inputs = linkField.querySelectorAll('input');
+                updatedProfile.socialLinks[inputs[0].value] = inputs[1].value;
+            });
+
+            // Coletar projetos
+            document.querySelectorAll('#projectsContainer > div').forEach(projectField => {
+                const inputs = projectField.querySelectorAll('input, textarea');
+                updatedProfile.projects.push({
+                    title: inputs[0].value,
+                    subtitle: inputs[1].value,
+                    description: inputs[2].value,
+                    link: inputs[3].value,
+                    // Note: O upload de imagem real requer uma solução de armazenamento como Firebase Storage
+                });
+            });
+
+            // Configurações de background
+            const backgroundType = document.querySelector('input[name="backgroundType"]:checked').value;
+            if (backgroundType === 'color') {
+                updatedProfile.backgroundColor = document.getElementById('backgroundColor').value;
+            } else if (backgroundType === 'gradient') {
+                updatedProfile.backgroundGradient = {
+                    color1: document.getElementById('gradientColor1').value,
+                    color2: document.getElementById('gradientColor2').value
+                };
+            } else if (backgroundType === '3d') {
+                updatedProfile.background3D = {
+                    shape: document.getElementById('3dShape').value,
+                    color: document.getElementById('3dColor').value
+                };
+            }
+
+            // Salvar no Firebase
+            try {
+                await set(ref(database, `users/${userId}`), updatedProfile);
+                alert('Perfil atualizado com sucesso!');
+            } catch (error) {
+                console.error('Erro ao atualizar perfil:', error);
+                alert('Erro ao atualizar perfil. Por favor, tente novamente.');
+            }
+        });
+
+        // Verificar o estado de autenticação do usuário
+        onAuthStateChanged(auth, (user) => {
             if (user) {
-                currentUser = user;
-                loadUserData();
+                loadProfileData(user.uid);
             } else {
+                // Redirecionar para a página de login se o usuário não estiver autenticado
                 window.location.href = 'login.html';
             }
         });
-
-        function loadUserData() {
-            firebase.database().ref('users/' + currentUser.uid).once('value').then((snapshot) => {
-                const userData = snapshot.val();
-                if (userData) {
-                    document.getElementById('username').value = userData.username || '';
-                    document.getElementById('fullName').value = userData.fullName || '';
-                    document.getElementById('bio').value = userData.bio || '';
-                    document.getElementById('twitter').value = userData.socialLinks?.twitter || '';
-                    document.getElementById('linkedin').value = userData.socialLinks?.linkedin || '';
-                    document.getElementById('github').value = userData.socialLinks?.github || '';
-                    
-                    if (userData.profilePic) {
-                        document.getElementById('profilePicPreview').src = userData.profilePic;
-                    }
-                    if (userData.banner) {
-                        document.getElementById('bannerPicPreview').src = userData.banner;
-                    }
-                }
-            });
-        }
-
-        document.getElementById('profileForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const userData = {
-                username: document.getElementById('username').value,
-                fullName: document.getElementById('fullName').value,
-                bio: document.getElementById('bio').value,
-                socialLinks: {
-                    twitter: document.getElementById('twitter').value,
-                    linkedin: document.getElementById('linkedin').value,
-                    github: document.getElementById('github').value
-                }
-            };
-
-            firebase.database().ref('users/' + currentUser.uid).update(userData)
-                .then(() => {
-                    alert('Perfil atualizado com sucesso!');
-                    window.location.href = 'dashboard.html';
-                })
-                .catch((error) => {
-                    console.error('Erro ao atualizar perfil:', error);
-                    alert('Erro ao atualizar perfil. Por favor, tente novamente.');
-                });
-        });
-
-        document.getElementById('changeProfilePic').addEventListener('click', () => {
-            document.getElementById('profilePicInput').click();
-        });
-
-        document.getElementById('changeBannerPic').addEventListener('click', () => {
-            document.getElementById('bannerPicInput').click();
-        });
-
-        document.getElementById('profilePicInput').addEventListener('change', (e) => {
-            handleImageUpload(e, 'profile');
-        });
-
-        document.getElementById('bannerPicInput').addEventListener('change', (e) => {
-            handleImageUpload(e, 'banner');
-        });
-
-        function handleImageUpload(event, type) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.getElementById('cropperImage').src = e.target.result;
-                    document.getElementById('cropperModal').classList.remove('hidden');
-                    currentImageType = type;
-                    
-                    if (cropper) {
-                        cropper.destroy();
-                    }
-                    
-                    cropper = new Cropper(document.getElementById('cropperImage'), {
-                        aspectRatio: type === 'profile' ? 1 : 5,
-                        viewMode: 1,
-                    });
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        document.getElementById('saveCroppedImage').addEventListener('click', () => {
-            const croppedImageData = cropper.getCroppedCanvas().toDataURL('image/jpeg');
-            if (currentImageType === 'profile') {
-                document.getElementById('profilePicPreview').src = croppedImageData;
-            } else {
-                document.getElementById('bannerPicPreview').src = croppedImageData;
-            }
-            uploadImage(croppedImageData, currentImageType);
-            document.getElementById('cropperModal').classList.add('hidden');
-        });
-
-        document.getElementById('cancelCrop').addEventListener('click', () => {
-            document.getElementById('cropperModal').classList.add('hidden');
-        });
-
-        function uploadImage(imageData, type) {
-            const storageRef = firebase.storage().ref();
-            const imageRef = storageRef.child(`${currentUser.uid}/${type}.jpg`);
-            
-            imageRef.putString(imageData, 'data_url').then((snapshot) => {
-                snapshot.ref.getDownloadURL().then((downloadURL) => {
-                    const updates = {};
-                    updates[type === 'profile' ? 'profilePic' : 'banner'] = downloadURL;
-                    firebase.database().ref('users/' + currentUser.uid).update(updates);
-                });
-            }).catch((error) => {
-                console.error('Erro ao fazer upload da imagem:', error);
-                alert('Erro ao fazer upload da imagem. Por favor, tente novamente.');
-            });
-        }
     </script>
 </body>
     </html>
