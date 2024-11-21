@@ -3,100 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de Usuário Profissional</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Perfil do Usuário</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <style>
-        .theme-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #4a5568;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.theme-toggle:hover {
-    background-color: #2d3748;
-}
-
-.profile-pic {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.banner {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-}
-
-.stat-item {
-    background-color: #f3f4f6;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    text-align: center;
-}
-
-.dark .stat-item {
-    background-color: #374151;
-}
-
-.chart-container {
-    width: 100%;
-    max-width: 600px;
-    margin: 2rem auto;
-}
-
-
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .profile-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .banner {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        .profile-info {
+            padding: 20px;
+            position: relative;
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            position: absolute;
+            top: -60px;
+            left: 20px;
+        }
+        .username {
+            margin-top: 70px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .fullname {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .bio {
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+        .menu-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .menu {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .menu a {
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+        }
+        .menu a:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-    <div id="app" class="container mx-auto px-4 py-8">
-        <header class="mb-8">
-            <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Perfil de Usuário</h1>
-        </header>
-
-        <main>
-            <div id="profile-display" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
-                <!-- O conteúdo do perfil será inserido aqui dinamicamente -->
-            </div>
-
-            <div id="profile-edit" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hidden">
-                <!-- O formulário de edição será inserido aqui dinamicamente -->
-            </div>
-        </main>
-
-        <footer class="mt-8 text-center text-gray-600 dark:text-gray-400">
-            <p>&copy; 2023 Sistema de Perfil Profissional. Todos os direitos reservados.</p>
-        </footer>
+<body>
+    <div class="profile-container">
+        <div class="banner" id="banner"></div>
+        <div class="profile-info">
+            <img src="" alt="Foto de perfil" class="profile-pic" id="profilePic">
+            <h1 class="username" id="username"></h1>
+            <p class="fullname" id="fullname"></p>
+            <p class="bio" id="bio"></p>
+        </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    <button class="menu-button" onclick="toggleMenu()">+</button>
+    <div class="menu" id="menu">
+        <a href="#">Área Social</a>
+        <a href="editprofile.html">Editar Perfil</a>
+        <a href="#">Laboratório de Código</a>
+        <a href="#">Mensagens</a>
+    </div>
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
+            authDomain: "b-code-881b2.firebaseapp.com",
+            databaseURL: "https://b-code-881b2-default-rtdb.firebaseio.com",
+            projectId: "b-code-881b2",
+            storageBucket: "b-code-881b2.firebasestorage.app",
+            messagingSenderId: "199379425544",
+            appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
+            measurementId: "G-9FEKL6WX7C"
+        };
 
-    <!-- Custom JS -->
-    <script src="app.js" type="module"></script>
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Referência para o banco de dados
+        const db = firebase.database();
+
+        // Função para carregar os dados do perfil
+        const loadProfile = () => {
+            const userId = 'user123'; // Substitua por um ID de usuário real
+            const userRef = db.ref('users/' + userId);
+
+            userRef.once('value').then((snapshot) => {
+                const userData = snapshot.val();
+                if (userData) {
+                    document.getElementById('username').textContent = userData.username;
+                    document.getElementById('fullname').textContent = userData.fullname;
+                    document.getElementById('bio').textContent = userData.bio;
+                    document.getElementById('profilePic').src = userData.profilePic;
+                    document.getElementById('banner').style.backgroundImage = `url(${userData.banner})`;
+                }
+            });
+        };
+
+        // Carregar o perfil quando a página for carregada
+        window.onload = loadProfile;
+
+        // Função para alternar o menu
+        const toggleMenu = () => {
+            const menu = document.getElementById('menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        };
+    </script>
 </body>
 </html>
 
