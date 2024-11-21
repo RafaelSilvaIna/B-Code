@@ -1,197 +1,111 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard do Usuário</title>
+    <title>B-Code - Perfil do Usuário</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.9.96/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        .gradient-bg {
-            background: linear-gradient(45deg, #3490dc, #6574cd, #9561e2);
-            background-size: 200% 200%;
-            animation: gradientBG 15s ease infinite;
+        .sidebar {
+            transition: transform 0.3s ease-in-out;
         }
-        @keyframes gradientBG {
-            0% {background-position: 0% 50%;}
-            50% {background-position: 100% 50%;}
-            100% {background-position: 0% 50%;}
+        .sidebar.closed {
+            transform: translateX(-100%);
         }
-        .profile-pic {
-            width: 150px;
-            height: 150px;
+        #background3D {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .profile-frame {
+            border: 4px solid;
             border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        .banner {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-        @media (max-width: 640px) {
-            .profile-pic {
-                width: 100px;
-                height: 100px;
-            }
-            .banner {
-                height: 150px;
-            }
-        }
+        .frame-1 { border-color: gold; }
+        .frame-2 { border-color: silver; }
+        .frame-3 { border-color: #cd7f32; }
+        .frame-4 { border-color: #e44d26; }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
-    <div class="flex flex-col md:flex-row min-h-screen">
+<body class="bg-gray-100">
+    <div id="background3D"></div>
+    <div class="flex">
         <!-- Sidebar -->
-        <aside class="w-full md:w-64 bg-gray-800 text-white p-6">
-            <h2 class="text-2xl font-bold mb-6">Menu</h2>
+        <div id="sidebar" class="sidebar bg-gray-800 text-white w-64 min-h-screen p-4">
+            <button id="toggleSidebar" class="mb-4 bg-blue-500 text-white px-4 py-2 rounded">
+                <i class="fas fa-bars"></i> Menu
+            </button>
             <nav>
-                <ul class="space-y-2">
-                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a></li>
-                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-flask mr-2"></i>Laboratório de Código</a></li>
-                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-project-diagram mr-2"></i>Projetos</a></li>
-                    <li><a href="s-code.html" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-users mr-2"></i>S-Code</a></li>
-                    <li><a href="#" class="block py-2 px-4 rounded hover:bg-gray-700 transition"><i class="fas fa-envelope mr-2"></i>Mensagens</a></li>
+                <ul>
+                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-users mr-2"></i>Área Social</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-flask mr-2"></i>Laboratório</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-project-diagram mr-2"></i>Centro De Projetos</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-envelope mr-2"></i>Mensagens</a></li>
+                    <li><a href="editprofile.html" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-user-edit mr-2"></i>Editar Perfil</a></li>
+                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-cog mr-2"></i>Configuração</a></li>
                 </ul>
             </nav>
-        </aside>
+        </div>
 
         <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto">
-            <div class="gradient-bg banner" id="userBanner">
-                <div class="animate-pulse bg-gray-300 h-full w-full"></div>
-            </div>
-            <div class="container mx-auto px-4 py-8">
-                <div class="bg-white rounded-lg shadow-lg p-6 -mt-16 relative z-10">
-                    <div class="flex flex-col items-center md:flex-row md:items-start">
-                        <div class="md:mr-6 mb-4 md:mb-0">
-                            <div class="profile-pic bg-gray-300 animate-pulse" id="userProfilePicContainer">
-                                <img src="" alt="Profile Picture" class="profile-pic hidden" id="userProfilePic">
-                            </div>
-                        </div>
-                        <div class="flex-1 text-center md:text-left">
-                            <h1 class="text-3xl font-bold mb-2" id="userName">
-                                <span class="bg-gray-300 animate-pulse h-8 w-48 inline-block rounded"></span>
-                            </h1>
-                            <p class="text-gray-600 mb-4" id="userFullName">
-                                <span class="bg-gray-300 animate-pulse h-6 w-32 inline-block rounded"></span>
-                            </p>
-                            <div class="mb-6">
-                                <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm" id="userStatus">Online</span>
-                            </div>
-                            <p class="text-gray-700 mb-6" id="userBio">
-                                <span class="bg-gray-300 animate-pulse h-4 w-full inline-block rounded"></span>
-                                <span class="bg-gray-300 animate-pulse h-4 w-3/4 inline-block rounded mt-2"></span>
-                            </p>
-                            <div class="flex justify-center md:justify-start space-x-4 mb-6" id="socialLinks">
-                                <a href="#" class="text-blue-500 hover:text-blue-700 hidden" id="twitterLink"><i class="fab fa-twitter fa-2x"></i><span class="sr-only">Twitter</span></a>
-                                <a href="#" class="text-blue-700 hover:text-blue-900 hidden" id="linkedinLink"><i class="fab fa-linkedin fa-2x"></i><span class="sr-only">LinkedIn</span></a>
-                                <a href="#" class="text-gray-800 hover:text-black hidden" id="githubLink"><i class="fab fa-github fa-2x"></i><span class="sr-only">GitHub</span></a>
-                            </div>
-                            <div class="text-center md:text-left">
-                                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition" id="editProfileBtn">
-                                    Editar Perfil
-                                </button>
-                            </div>
-                        </div>
+        <div class="flex-1 p-4">
+            <div id="profile" class="bg-white rounded-lg shadow-md p-6">
+                <!-- Banner -->
+                <div id="banner" class="h-48 bg-cover bg-center rounded-t-lg relative">
+                    <div id="bannerOverlay" class="absolute inset-0 bg-black opacity-50"></div>
+                    <h1 id="fullName" class="absolute bottom-4 left-4 text-4xl font-bold text-white"></h1>
+                </div>
+
+                <!-- Profile Info -->
+                <div class="flex items-center -mt-12 mb-4 relative z-10">
+                    <img id="profilePic" src="" alt="Profile Picture" class="w-24 h-24 rounded-full border-4 border-white profile-frame">
+                    <div class="ml-4">
+                        <p id="username" class="text-xl font-semibold text-gray-800"></p>
+                        <p id="gender" class="text-gray-600"></p>
+                        <div id="status" class="text-sm font-medium"></div>
                     </div>
                 </div>
 
-                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">Estatísticas</h2>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="text-center">
-                                <p class="text-4xl font-bold text-blue-500" id="projectCount">-</p>
-                                <p class="text-gray-600">Projetos</p>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-4xl font-bold text-green-500" id="contributionCount">-</p>
-                                <p class="text-gray-600">Contribuições</p>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-4xl font-bold text-purple-500" id="badgeCount">-</p>
-                                <p class="text-gray-600">Badges</p>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-4xl font-bold text-yellow-500" id="rating">-</p>
-                                <p class="text-gray-600">Avaliação</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4">Atividade Recente</h2>
-                        <ul class="space-y-4" id="recentActivity">
-                            <li class="flex items-center animate-pulse">
-                                <div class="w-6 h-6 rounded-full bg-gray-300 mr-2"></div>
-                                <span class="bg-gray-300 h-4 w-3/4 rounded"></span>
-                            </li>
-                            <li class="flex items-center animate-pulse">
-                                <div class="w-6 h-6 rounded-full bg-gray-300 mr-2"></div>
-                                <span class="bg-gray-300 h-4 w-3/4 rounded"></span>
-                            </li>
-                            <li class="flex items-center animate-pulse">
-                                <div class="w-6 h-6 rounded-full bg-gray-300 mr-2"></div>
-                                <span class="bg-gray-300 h-4 w-3/4 rounded"></span>
-                            </li>
-                        </ul>
+                <!-- Biography -->
+                <div id="bio" class="mb-6 p-4 border rounded bg-gray-50"></div>
+
+                <!-- Social Links -->
+                <div id="socialLinks" class="mb-6 flex flex-wrap gap-2"></div>
+
+                <!-- Projects -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-4">Projetos</h2>
+                    <div class="swiper-container">
+                        <div id="projectsSlider" class="swiper-wrapper"></div>
+                        <div class="swiper-pagination"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
                     </div>
                 </div>
-            </div>
-        </main>
-    </div>
 
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
-        <div class="bg-white rounded-lg p-8 max-w-md w-full">
-            <h2 class="text-2xl font-bold mb-4">Configurações</h2>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="uid">
-                    UID
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="uid" type="text" readonly>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    Nome de Usuário
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="fullName">
-                    Nome Completo
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="fullName" type="text">
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="theme">
-                    Tema
-                </label>
-                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="theme">
-                    <option value="light">Claro</option>
-                    <option value="dark">Escuro</option>
-                </select>
-            </div>
-            <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" id="saveSettingsBtn">
-                    Salvar
-                </button>
-                <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" id="closeSettingsBtn">
-                    Fechar
-                </button>
+                <!-- Contact Info -->
+                <div id="contactInfo" class="mb-6"></div>
+
+                <!-- Work Info -->
+                <div id="workInfo" class="mb-6"></div>
             </div>
         </div>
     </div>
 
     <script type="module">
+        // Importar Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
+        // Configuração do Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
             authDomain: "b-code-881b2.firebaseapp.com",
@@ -203,149 +117,154 @@
             measurementId: "G-9FEKL6WX7C"
         };
 
+        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
         const auth = getAuth(app);
+        const database = getDatabase(app);
 
-        let currentUser = null;
+        // Função para carregar dados do perfil
+        function loadProfileData(userId) {
+            const userRef = ref(database, `users/${userId}`);
+            onValue(userRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('fullName').textContent = data.fullName;
+                    document.getElementById('username').textContent = `@${data.username}`;
+                    document.getElementById('gender').textContent = data.gender || 'Não especificado';
+                    document.getElementById('bio').innerHTML = data.bio || 'Nenhuma biografia adicionada.';
+                    document.getElementById('banner').style.backgroundImage = `url(${data.banner || 'https://via.placeholder.com/1000x250'})`;
+                    document.getElementById('profilePic').src = data.profilePic || 'https://via.placeholder.com/150';
+                    document.getElementById('profilePic').className = `w-24 h-24 rounded-full border-4 border-white profile-frame frame-${data.frameStyle || '1'}`;
+                    
+                    // Status
+                    const statusEl = document.getElementById('status');
+                    statusEl.textContent = data.status || 'Offline';
+                    statusEl.className = `text-sm font-medium ${data.status === 'Online' ? 'text-green-500' : 'text-gray-500'}`;
 
+                    // Carregar links sociais
+                    const socialLinksContainer = document.getElementById('socialLinks');
+                    socialLinksContainer.innerHTML = '';
+                    if (data.socialLinks) {
+                        for (const [platform, url] of Object.entries(data.socialLinks)) {
+                            const link = document.createElement('a');
+                            link.href = url;
+                            link.target = "_blank";
+                            link.className = 'bg-blue-500 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-600 transition duration-300';
+                            link.innerHTML = `<i class="fab fa-${platform.toLowerCase()} mr-1"></i>${platform}`;
+                            socialLinksContainer.appendChild(link);
+                        }
+                    }
+
+                    // Carregar projetos
+                    const projectsSlider = document.getElementById('projectsSlider');
+                    projectsSlider.innerHTML = '';
+                    if (data.projects) {
+                        data.projects.forEach(project => {
+                            const slide = document.createElement('div');
+                            slide.className = 'swiper-slide bg-white rounded-lg shadow-md p-4';
+                            slide.innerHTML = `
+                                <img src="${project.image || 'https://via.placeholder.com/300x200'}" alt="${project.title}" class="w-full h-40 object-cover rounded-t-lg mb-4">
+                                <h3 class="text-xl font-semibold mb-2">${project.title}</h3>
+                                <p class="text-gray-600 mb-2">${project.subtitle}</p>
+                                <p class="text-sm mb-4">${project.description}</p>
+                                <a href="${project.link}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">Ver Projeto</a>
+                            `;
+                            projectsSlider.appendChild(slide);
+                        });
+                        new Swiper('.swiper-container', {
+                            slidesPerView: 1,
+                            spaceBetween: 30,
+                            navigation: {
+                                nextEl: '.swiper-button-next',
+                                prevEl: '.swiper-button-prev',
+                            },
+                            pagination: {
+                                el: '.swiper-pagination',
+                                clickable: true,
+                            },
+                            breakpoints: {
+                                640: {
+                                    slidesPerView: 2,
+                                },
+                                768: {
+                                    slidesPerView: 3,
+                                },
+                            },
+                        });
+                    }
+
+                    // Carregar informações de contato
+                    const contactInfo = document.getElementById('contactInfo');
+                    contactInfo.innerHTML = `
+                        <h2 class="text-2xl font-semibold mb-4">Contato</h2>
+                        <p><i class="fas fa-envelope mr-2"></i>${data.email}</p>
+                        ${data.phone ? `<p><i class="fas fa-phone mr-2"></i>${data.phone}</p>` : ''}
+                    `;
+
+                    // Carregar informações de trabalho
+                    const workInfo = document.getElementById('workInfo');
+                    workInfo.innerHTML = `
+                        <h2 class="text-2xl font-semibold mb-4">Experiência Profissional</h2>
+                        <p><i class="fas fa-briefcase mr-2"></i>${data.work || 'Nenhuma informação de trabalho adicionada.'}</p>
+                    `;
+
+                    // Configurar background 3D
+                    if (data.background3D) {
+                        setupBackground3D(data.background3D);
+                    }
+                }
+            });
+        }
+
+        // Função para configurar o background 3D
+        function setupBackground3D(config) {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('background3D').appendChild(renderer.domElement);
+
+            const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+            const material = new THREE.MeshBasicMaterial({ color: config.color || 0x00ff00, wireframe: true });
+            const torusKnot = new THREE.Mesh(geometry, material);
+            scene.add(torusKnot);
+
+            camera.position.z = 30;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                torusKnot.rotation.x += 0.01;
+                torusKnot.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // Verificar o estado de autenticação do usuário
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                currentUser = user;
-                loadUserData(user.uid);
+                loadProfileData(user.uid);
             } else {
-                console.log("No user is signed in.");
-                // Redirect to login page or show login prompt
-                // window.location.href = 'login.html';
+                // Redirecionar para a página de login se o usuário não estiver autenticado
+                window.location.href = 'login.html';
             }
         });
 
-        function loadUserData(uid) {
-            const userRef = ref(db, 'users/' + uid);
-            onValue(userRef, (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    document.getElementById('userName').innerHTML = data.username || 'Nome de Usuário';
-                    document.getElementById('userFullName').innerHTML = data.fullName || 'Nome Completo';
-                    document.getElementById('userBio').innerHTML = data.bio || 'Bio do usuário...';
-                    
-                    const profilePic = document.getElementById('userProfilePic');
-                    profilePic.src = data.profilePic || 'https://via.placeholder.com/150';
-                    profilePic.classList.remove('hidden');
-                document.getElementById('userProfilePicContainer').classList.remove('animate-pulse', 'bg-gray-300');
-                    
-                    document.getElementById('userBanner').style.backgroundImage = `url(${data.banner || 'https://via.placeholder.com/1000x200'})`;
-                    document.getElementById('userBanner').innerHTML = '';
-
-                    // Update social links
-                    updateSocialLink('twitterLink', data.socialLinks?.twitter);
-                    updateSocialLink('linkedinLink', data.socialLinks?.linkedin);
-                    updateSocialLink('githubLink', data.socialLinks?.github);
-
-                    // Update statistics
-                    document.getElementById('projectCount').textContent = data.statistics?.projects || '0';
-                    document.getElementById('contributionCount').textContent = data.statistics?.contributions || '0';
-                    document.getElementById('badgeCount').textContent = data.statistics?.badges || '0';
-                    document.getElementById('rating').textContent = data.statistics?.rating || '0.0';
-
-                    // Update recent activity
-                    updateRecentActivity(data.recentActivity || []);
-                }
-            });
-        }
-
-        function updateSocialLink(elementId, url) {
-            const element = document.getElementById(elementId);
-            if (url) {
-                element.href = url;
-                element.classList.remove('hidden');
-            } else {
-                element.classList.add('hidden');
-            }
-        }
-
-        function updateRecentActivity(activities) {
-            const activityList = document.getElementById('recentActivity');
-            activityList.innerHTML = '';
-            activities.forEach(activity => {
-                const li = document.createElement('li');
-                li.className = 'flex items-center';
-                li.innerHTML = `
-                    <i class="${getActivityIcon(activity.type)} mr-2"></i>
-                    <span>${activity.description}</span>
-                `;
-                activityList.appendChild(li);
-            });
-        }
-
-        function getActivityIcon(type) {
-            switch (type) {
-                case 'project': return 'fas fa-code-branch text-blue-500';
-                case 'badge': return 'fas fa-trophy text-yellow-500';
-                case 'comment': return 'fas fa-comment text-green-500';
-                default: return 'fas fa-circle text-gray-500';
-            }
-        }
-
-        document.getElementById('editProfileBtn').addEventListener('click', () => {
-            window.location.href = 'editprofile.html';
+        // Toggle sidebar
+        document.getElementById('toggleSidebar').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('closed');
         });
 
-        const settingsModal = document.getElementById('settingsModal');
-        const openSettingsBtn = document.createElement('button');
-        openSettingsBtn.innerHTML = '<i class="fas fa-cog"></i>';
-        openSettingsBtn.className = 'fixed bottom-4 right-4 bg-gray-800 text-white p-3 rounded-full shadow-lg hover:bg-gray-700 transition';
-        document.body.appendChild(openSettingsBtn);
+        // Atualizar status online/offline
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
 
-        openSettingsBtn.addEventListener('click', () => {
-            settingsModal.classList.remove('hidden');
-            settingsModal.classList.add('flex');
-            if (currentUser) {
-                document.getElementById('uid').value = currentUser.uid;
-                loadUserSettings(currentUser.uid);
+        function updateOnlineStatus() {
+            const userId = auth.currentUser?.uid;
+            if (userId) {
+                set(ref(database, `users/${userId}/status`), navigator.onLine ? 'Online' : 'Offline');
             }
-        });
-
-        document.getElementById('closeSettingsBtn').addEventListener('click', () => {
-            settingsModal.classList.add('hidden');
-            settingsModal.classList.remove('flex');
-        });
-
-        document.getElementById('saveSettingsBtn').addEventListener('click', () => {
-            if (currentUser) {
-                const username = document.getElementById('username').value;
-                const fullName = document.getElementById('fullName').value;
-                const theme = document.getElementById('theme').value;
-
-                const userRef = ref(db, 'users/' + currentUser.uid);
-                set(userRef, {
-                    username: username,
-                    fullName: fullName,
-                    theme: theme
-                }, { merge: true });
-
-                settingsModal.classList.add('hidden');
-                settingsModal.classList.remove('flex');
-            }
-        });
-
-        function loadUserSettings(uid) {
-            const userRef = ref(db, 'users/' + uid);
-            onValue(userRef, (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    document.getElementById('username').value = data.username || '';
-                    document.getElementById('fullName').value = data.fullName || '';
-                    document.getElementById('theme').value = data.theme || 'light';
-                }
-            });
         }
-
-        // Adicione animações e efeitos
-        AOS.init();
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 </body>
 </html>
