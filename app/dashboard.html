@@ -1,355 +1,102 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B-Code - Perfil do Usuário</title>
+    <title>Perfil de Usuário Profissional</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .sidebar {
-            transition: transform 0.3s ease-in-out;
-        }
-        .sidebar.closed {
-            transform: translateX(-100%);
-        }
-        #background3D {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-        .profile-frame {
-            border: 4px solid;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        .frame-1 { border-color: gold; }
-        .frame-2 { border-color: silver; }
-        .frame-3 { border-color: #cd7f32; }
-        .frame-4 { border-color: #e44d26; }
-        .profile-pic-container {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            overflow: hidden;
-            border-radius: 50%;
-        }
-        .profile-pic-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .profile-pic-container:hover .profile-pic-overlay {
-            opacity: 1;
-        }
-        .banner-container {
-            position: relative;
-            height: 250px;
-            overflow: hidden;
-        }
-        .banner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .project-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        @media (max-width: 640px) {
-            .sidebar {
-                position: fixed;
-                z-index: 50;
-                height: 100vh;
-            }
-        }
+        .theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4a5568;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background-color: #2d3748;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.banner {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.stat-item {
+    background-color: #f3f4f6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+}
+
+.dark .stat-item {
+    background-color: #374151;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+
     </style>
 </head>
-<body class="bg-gray-100">
-    <div id="background3D"></div>
-    <div class="flex flex-col sm:flex-row min-h-screen">
-        <!-- Sidebar -->
-        <div id="sidebar" class="sidebar bg-gray-800 text-white w-full sm:w-64 min-h-screen p-4">
-            <button id="toggleSidebar" class="mb-4 bg-blue-500 text-white px-4 py-2 rounded">
-                <i class="fas fa-bars"></i> Menu
-            </button>
-            <nav>
-                <ul>
-                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-users mr-2"></i>Área Social</a></li>
-                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-flask mr-2"></i>Laboratório</a></li>
-                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-project-diagram mr-2"></i>Centro De Projetos</a></li>
-                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-envelope mr-2"></i>Mensagens</a></li>
-                    <li><a href="editprofile.html" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-user-edit mr-2"></i>Editar Perfil</a></li>
-                    <li><a href="#" class="block py-2 hover:bg-gray-700 rounded px-2"><i class="fas fa-cog mr-2"></i>Configuração</a></li>
-                </ul>
-            </nav>
-        </div>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    <div id="app" class="container mx-auto px-4 py-8">
+        <header class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Perfil de Usuário</h1>
+        </header>
 
-        <!-- Main Content -->
-        <div class="flex-1 p-4">
-            <div id="profile" class="bg-white rounded-lg shadow-md overflow-hidden">
-                <!-- Banner -->
-                <div id="bannerContainer" class="banner-container">
-                    <div id="banner" class="w-full h-full bg-cover bg-center"></div>
-                    <div class="banner-overlay">
-                        <h1 id="fullName" class="text-4xl font-bold text-white"></h1>
-                    </div>
-                </div>
-
-                <!-- Profile Info -->
-                <div class="flex flex-col sm:flex-row items-center sm:items-start -mt-20 mb-4 px-6">
-                    <div class="profile-pic-container mb-4 sm:mb-0 sm:mr-6">
-                        <img id="profilePic" src="" alt="Profile Picture" class="w-full h-full object-cover">
-                        <div class="profile-pic-overlay">
-                            <i class="fas fa-camera text-white text-2xl"></i>
-                        </div>
-                    </div>
-                    <div class="text-center sm:text-left">
-                        <p id="username" class="text-2xl font-semibold text-gray-800"></p>
-                        <p id="gender" class="text-gray-600"></p>
-                        <div id="status" class="text-sm font-medium mt-2"></div>
-                    </div>
-                </div>
-
-                <!-- Biography -->
-                <div id="bio" class="mb-6 p-6 border-t border-b"></div>
-
-                <!-- Social Links -->
-                <div id="socialLinks" class="mb-6 px-6 flex flex-wrap gap-2"></div>
-
-                <!-- Projects -->
-                <div class="mb-6 px-6">
-                    <h2 class="text-2xl font-semibold mb-4">Projetos</h2>
-                    <div id="projectsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-                </div>
-
-                <!-- Contact Info -->
-                <div id="contactInfo" class="mb-6 px-6"></div>
-
-                <!-- Work Info -->
-                <div id="workInfo" class="mb-6 px-6"></div>
+        <main>
+            <div id="profile-display" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
+                <!-- O conteúdo do perfil será inserido aqui dinamicamente -->
             </div>
-        </div>
+
+            <div id="profile-edit" class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 hidden">
+                <!-- O formulário de edição será inserido aqui dinamicamente -->
+            </div>
+        </main>
+
+        <footer class="mt-8 text-center text-gray-600 dark:text-gray-400">
+            <p>&copy; 2023 Sistema de Perfil Profissional. Todos os direitos reservados.</p>
+        </footer>
     </div>
 
-    <script type="module">
-        // Importar Firebase
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
 
-        // Configuração do Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyD4FmKe7ei-mcKH4flhnXq9TtwmxfUeq5k",
-            authDomain: "b-code-881b2.firebaseapp.com",
-            databaseURL: "https://b-code-881b2-default-rtdb.firebaseio.com",
-            projectId: "b-code-881b2",
-            storageBucket: "b-code-881b2.firebasestorage.app",
-            messagingSenderId: "199379425544",
-            appId: "1:199379425544:web:2e9ac129c58ca9ee37b4bd",
-            measurementId: "G-9FEKL6WX7C"
-        };
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        // Inicializar Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const database = getDatabase(app);
-
-        // Função para carregar dados do perfil
-        function loadProfileData(userId) {
-            const userRef = ref(database, `users/${userId}`);
-            onValue(userRef, (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    document.getElementById('fullName').textContent = data.fullName;
-                    document.getElementById('username').textContent = `@${data.username}`;
-                    document.getElementById('gender').textContent = data.gender || 'Não especificado';
-                    document.getElementById('bio').innerHTML = data.bio || 'Nenhuma biografia adicionada.';
-                    
-                    // Banner
-                    const bannerContainer = document.getElementById('bannerContainer');
-                    if (data.bannerType === 'video') {
-                        const video = document.createElement('video');
-                        video.src = data.banner;
-                        video.autoplay = true;
-                        video.loop = true;
-                        video.muted = true;
-                        video.classList.add('w-full', 'h-full', 'object-cover');
-                        bannerContainer.innerHTML = '';
-                        bannerContainer.appendChild(video);
-                    } else {
-                        document.getElementById('banner').style.backgroundImage = `url(${data.banner})`;
-                    }
-
-                    // Foto de perfil
-                    const profilePic = document.getElementById('profilePic');
-                    profilePic.src = data.profilePic;
-                    profilePic.className = `w-full h-full object-cover profile-frame frame-${data.frameStyle || '1'}`;
-                    
-                    if (data.profilePicColor) {
-                        profilePic.style.filter = `sepia(100%) saturate(300%) brightness(70%) hue-rotate(${data.profilePicColor}deg)`;
-                    }
-                    
-                    // Status
-                    const statusEl = document.getElementById('status');
-                    statusEl.textContent = data.status || 'Offline';
-                    statusEl.className = `text-sm font-medium px-2 py-1 rounded ${data.status === 'Online' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'}`;
-
-                    // Links sociais
-                    const socialLinksContainer = document.getElementById('socialLinks');
-                    socialLinksContainer.innerHTML = '';
-                    if (data.socialLinks) {
-                        for (const [platform, url] of Object.entries(data.socialLinks)) {
-                            const link = document.createElement('a');
-                            link.href = url;
-                            link.target = "_blank";
-                            link.className = 'bg-blue-500 text-white px-3 py-1 rounded-full text-sm hover:bg-blue-600 transition duration-300';
-                            link.innerHTML = `<i class="fab fa-${platform.toLowerCase()} mr-1"></i>${platform}`;
-                            socialLinksContainer.appendChild(link);
-                        }
-                    }
-
-                    // Projetos
-                    const projectsContainer = document.getElementById('projectsContainer');
-                    projectsContainer.innerHTML = '';
-                    if (data.projects) {
-                        data.projects.forEach(project => {
-                            const projectCard = document.createElement('div');
-                            projectCard.className = 'project-card bg-white rounded-lg shadow-md overflow-hidden';
-                            projectCard.innerHTML = `
-                                <img src="${project.image}" alt="${project.title}" class="w-full h-40 object-cover">
-                                <div class="p-4">
-                                    <h3 class="text-xl font-semibold mb-2">${project.title}</h3>
-                                    <p class="text-gray-600 mb-2">${project.subtitle}</p>
-                                    <p class="text-sm mb-4">${project.description}</p>
-                                    <a href="${project.link}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">Ver Projeto</a>
-                                </div>
-                            `;
-                            projectsContainer.appendChild(projectCard);
-                        });
-                    }
-
-                    // Informações de contato
-                    const contactInfo = document.getElementById('contactInfo');
-                    contactInfo.innerHTML = `
-                        <h2 class="text-2xl font-semibold mb-4">Contato</h2>
-                        <p><i class="fas fa-envelope mr-2"></i>${data.email}</p>
-                        ${data.phone ? `<p><i class="fas fa-phone mr-2"></i>${data.phone}</p>` : ''}
-                    `;
-
-                    // Informações de trabalho
-                    const workInfo = document.getElementById('workInfo');
-                    workInfo.innerHTML = `
-                        <h2 class="text-2xl font-semibold mb-4">Experiência Profissional</h2>
-                        <p><i class="fas fa-briefcase mr-2"></i>${data.work || 'Nenhuma informação de trabalho adicionada.'}</p>
-                    `;
-
-                    // Configurar background 3D
-                    if (data.background3D) {
-                        setupBackground3D(data.background3D);
-                    }
-                }
-            });
-        }
-
-        // Função para configurar o background 3D
-        function setupBackground3D(config) {
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.getElementById('background3D').appendChild(renderer.domElement);
-
-            let geometry;
-            switch(config.shape) {
-                case 'sphere':
-                    geometry = new THREE.SphereGeometry(5, 32, 32);
-                    break;
-                case 'torus':
-                    geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-                    break;
-                default:
-                    geometry = new THREE.BoxGeometry(10, 10, 10);
-            }
-
-            const material = new THREE.MeshBasicMaterial({ color: config.color, wireframe: true });
-            const shape = new THREE.Mesh(geometry, material);
-            scene.add(shape);
-
-            camera.position.z = 30;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                shape.rotation.x += 0.01;
-                shape.rotation.y += 0.01;
-                renderer.render(scene, camera);
-            }
-            animate();
-
-            // Animação com GSAP
-            gsap.to(shape.rotation, {
-                x: Math.PI * 2,
-                y: Math.PI * 2,
-                duration: 5,
-                repeat: -1,
-                ease: "none"
-            });
-
-            // Responsividade
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        }
-
-        // Verificar o estado de autenticação do usuário
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                loadProfileData(user.uid);
-            } else {
-                // Redirecionar para a página de login se o usuário não estiver autenticado
-                window.location.href = 'login.html';
-            }
-        });
-
-        // Toggle sidebar
-        document.getElementById('toggleSidebar').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('closed');
-        });
-
-        // Atualizar status online/offline
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-
-        function updateOnlineStatus() {
-            const userId = auth.currentUser?.uid;
-            if (userId) {
-                set(ref(database, `users/${userId}/status`), navigator.onLine ? 'Online' : 'Offline');
-            }
-        }
-    </script>
+    <!-- Custom JS -->
+    <script src="app.js" type="module"></script>
 </body>
 </html>
+
