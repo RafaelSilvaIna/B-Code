@@ -6,9 +6,8 @@
     <title>B-Code - Perfil do Usuário</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <style>
         .sidebar {
             transition: transform 0.3s ease-in-out;
@@ -27,18 +26,72 @@
         .profile-frame {
             border: 4px solid;
             border-radius: 50%;
+            transition: all 0.3s ease;
         }
         .frame-1 { border-color: gold; }
         .frame-2 { border-color: silver; }
         .frame-3 { border-color: #cd7f32; }
         .frame-4 { border-color: #e44d26; }
+        .profile-pic-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+        .profile-pic-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .profile-pic-container:hover .profile-pic-overlay {
+            opacity: 1;
+        }
+        .banner-container {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        @media (max-width: 640px) {
+            .sidebar {
+                position: fixed;
+                z-index: 50;
+                height: 100vh;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
     <div id="background3D"></div>
-    <div class="flex">
+    <div class="flex flex-col sm:flex-row min-h-screen">
         <!-- Sidebar -->
-        <div id="sidebar" class="sidebar bg-gray-800 text-white w-64 min-h-screen p-4">
+        <div id="sidebar" class="sidebar bg-gray-800 text-white w-full sm:w-64 min-h-screen p-4">
             <button id="toggleSidebar" class="mb-4 bg-blue-500 text-white px-4 py-2 rounded">
                 <i class="fas fa-bars"></i> Menu
             </button>
@@ -56,45 +109,47 @@
 
         <!-- Main Content -->
         <div class="flex-1 p-4">
-            <div id="profile" class="bg-white rounded-lg shadow-md p-6">
+            <div id="profile" class="bg-white rounded-lg shadow-md overflow-hidden">
                 <!-- Banner -->
-                <div id="banner" class="h-48 bg-cover bg-center rounded-t-lg relative">
-                    <div id="bannerOverlay" class="absolute inset-0 bg-black opacity-50"></div>
-                    <h1 id="fullName" class="absolute bottom-4 left-4 text-4xl font-bold text-white"></h1>
+                <div id="bannerContainer" class="banner-container">
+                    <div id="banner" class="w-full h-full bg-cover bg-center"></div>
+                    <div class="banner-overlay">
+                        <h1 id="fullName" class="text-4xl font-bold text-white"></h1>
+                    </div>
                 </div>
 
                 <!-- Profile Info -->
-                <div class="flex items-center -mt-12 mb-4 relative z-10">
-                    <img id="profilePic" src="" alt="Profile Picture" class="w-24 h-24 rounded-full border-4 border-white profile-frame">
-                    <div class="ml-4">
-                        <p id="username" class="text-xl font-semibold text-gray-800"></p>
+                <div class="flex flex-col sm:flex-row items-center sm:items-start -mt-20 mb-4 px-6">
+                    <div class="profile-pic-container mb-4 sm:mb-0 sm:mr-6">
+                        <img id="profilePic" src="" alt="Profile Picture" class="w-full h-full object-cover">
+                        <div class="profile-pic-overlay">
+                            <i class="fas fa-camera text-white text-2xl"></i>
+                        </div>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <p id="username" class="text-2xl font-semibold text-gray-800"></p>
                         <p id="gender" class="text-gray-600"></p>
-                        <div id="status" class="text-sm font-medium"></div>
+                        <div id="status" class="text-sm font-medium mt-2"></div>
                     </div>
                 </div>
 
                 <!-- Biography -->
-                <div id="bio" class="mb-6 p-4 border rounded bg-gray-50"></div>
+                <div id="bio" class="mb-6 p-6 border-t border-b"></div>
 
                 <!-- Social Links -->
-                <div id="socialLinks" class="mb-6 flex flex-wrap gap-2"></div>
+                <div id="socialLinks" class="mb-6 px-6 flex flex-wrap gap-2"></div>
 
                 <!-- Projects -->
-                <div class="mb-6">
+                <div class="mb-6 px-6">
                     <h2 class="text-2xl font-semibold mb-4">Projetos</h2>
-                    <div class="swiper-container">
-                        <div id="projectsSlider" class="swiper-wrapper"></div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
+                    <div id="projectsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 </div>
 
                 <!-- Contact Info -->
-                <div id="contactInfo" class="mb-6"></div>
+                <div id="contactInfo" class="mb-6 px-6"></div>
 
                 <!-- Work Info -->
-                <div id="workInfo" class="mb-6"></div>
+                <div id="workInfo" class="mb-6 px-6"></div>
             </div>
         </div>
     </div>
@@ -132,16 +187,37 @@
                     document.getElementById('username').textContent = `@${data.username}`;
                     document.getElementById('gender').textContent = data.gender || 'Não especificado';
                     document.getElementById('bio').innerHTML = data.bio || 'Nenhuma biografia adicionada.';
-                    document.getElementById('banner').style.backgroundImage = `url(${data.banner || 'https://via.placeholder.com/1000x250'})`;
-                    document.getElementById('profilePic').src = data.profilePic || 'https://via.placeholder.com/150';
-                    document.getElementById('profilePic').className = `w-24 h-24 rounded-full border-4 border-white profile-frame frame-${data.frameStyle || '1'}`;
+                    
+                    // Banner
+                    const bannerContainer = document.getElementById('bannerContainer');
+                    if (data.bannerType === 'video') {
+                        const video = document.createElement('video');
+                        video.src = data.banner;
+                        video.autoplay = true;
+                        video.loop = true;
+                        video.muted = true;
+                        video.classList.add('w-full', 'h-full', 'object-cover');
+                        bannerContainer.innerHTML = '';
+                        bannerContainer.appendChild(video);
+                    } else {
+                        document.getElementById('banner').style.backgroundImage = `url(${data.banner})`;
+                    }
+
+                    // Foto de perfil
+                    const profilePic = document.getElementById('profilePic');
+                    profilePic.src = data.profilePic;
+                    profilePic.className = `w-full h-full object-cover profile-frame frame-${data.frameStyle || '1'}`;
+                    
+                    if (data.profilePicColor) {
+                        profilePic.style.filter = `sepia(100%) saturate(300%) brightness(70%) hue-rotate(${data.profilePicColor}deg)`;
+                    }
                     
                     // Status
                     const statusEl = document.getElementById('status');
                     statusEl.textContent = data.status || 'Offline';
-                    statusEl.className = `text-sm font-medium ${data.status === 'Online' ? 'text-green-500' : 'text-gray-500'}`;
+                    statusEl.className = `text-sm font-medium px-2 py-1 rounded ${data.status === 'Online' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-700'}`;
 
-                    // Carregar links sociais
+                    // Links sociais
                     const socialLinksContainer = document.getElementById('socialLinks');
                     socialLinksContainer.innerHTML = '';
                     if (data.socialLinks) {
@@ -155,45 +231,27 @@
                         }
                     }
 
-                    // Carregar projetos
-                    const projectsSlider = document.getElementById('projectsSlider');
-                    projectsSlider.innerHTML = '';
+                    // Projetos
+                    const projectsContainer = document.getElementById('projectsContainer');
+                    projectsContainer.innerHTML = '';
                     if (data.projects) {
                         data.projects.forEach(project => {
-                            const slide = document.createElement('div');
-                            slide.className = 'swiper-slide bg-white rounded-lg shadow-md p-4';
-                            slide.innerHTML = `
-                                <img src="${project.image || 'https://via.placeholder.com/300x200'}" alt="${project.title}" class="w-full h-40 object-cover rounded-t-lg mb-4">
-                                <h3 class="text-xl font-semibold mb-2">${project.title}</h3>
-                                <p class="text-gray-600 mb-2">${project.subtitle}</p>
-                                <p class="text-sm mb-4">${project.description}</p>
-                                <a href="${project.link}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">Ver Projeto</a>
+                            const projectCard = document.createElement('div');
+                            projectCard.className = 'project-card bg-white rounded-lg shadow-md overflow-hidden';
+                            projectCard.innerHTML = `
+                                <img src="${project.image}" alt="${project.title}" class="w-full h-40 object-cover">
+                                <div class="p-4">
+                                    <h3 class="text-xl font-semibold mb-2">${project.title}</h3>
+                                    <p class="text-gray-600 mb-2">${project.subtitle}</p>
+                                    <p class="text-sm mb-4">${project.description}</p>
+                                    <a href="${project.link}" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">Ver Projeto</a>
+                                </div>
                             `;
-                            projectsSlider.appendChild(slide);
-                        });
-                        new Swiper('.swiper-container', {
-                            slidesPerView: 1,
-                            spaceBetween: 30,
-                            navigation: {
-                                nextEl: '.swiper-button-next',
-                                prevEl: '.swiper-button-prev',
-                            },
-                            pagination: {
-                                el: '.swiper-pagination',
-                                clickable: true,
-                            },
-                            breakpoints: {
-                                640: {
-                                    slidesPerView: 2,
-                                },
-                                768: {
-                                    slidesPerView: 3,
-                                },
-                            },
+                            projectsContainer.appendChild(projectCard);
                         });
                     }
 
-                    // Carregar informações de contato
+                    // Informações de contato
                     const contactInfo = document.getElementById('contactInfo');
                     contactInfo.innerHTML = `
                         <h2 class="text-2xl font-semibold mb-4">Contato</h2>
@@ -201,7 +259,7 @@
                         ${data.phone ? `<p><i class="fas fa-phone mr-2"></i>${data.phone}</p>` : ''}
                     `;
 
-                    // Carregar informações de trabalho
+                    // Informações de trabalho
                     const workInfo = document.getElementById('workInfo');
                     workInfo.innerHTML = `
                         <h2 class="text-2xl font-semibold mb-4">Experiência Profissional</h2>
@@ -224,20 +282,47 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.getElementById('background3D').appendChild(renderer.domElement);
 
-            const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-            const material = new THREE.MeshBasicMaterial({ color: config.color || 0x00ff00, wireframe: true });
-            const torusKnot = new THREE.Mesh(geometry, material);
-            scene.add(torusKnot);
+            let geometry;
+            switch(config.shape) {
+                case 'sphere':
+                    geometry = new THREE.SphereGeometry(5, 32, 32);
+                    break;
+                case 'torus':
+                    geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+                    break;
+                default:
+                    geometry = new THREE.BoxGeometry(10, 10, 10);
+            }
+
+            const material = new THREE.MeshBasicMaterial({ color: config.color, wireframe: true });
+            const shape = new THREE.Mesh(geometry, material);
+            scene.add(shape);
 
             camera.position.z = 30;
 
             function animate() {
                 requestAnimationFrame(animate);
-                torusKnot.rotation.x += 0.01;
-                torusKnot.rotation.y += 0.01;
+                shape.rotation.x += 0.01;
+                shape.rotation.y += 0.01;
                 renderer.render(scene, camera);
             }
             animate();
+
+            // Animação com GSAP
+            gsap.to(shape.rotation, {
+                x: Math.PI * 2,
+                y: Math.PI * 2,
+                duration: 5,
+                repeat: -1,
+                ease: "none"
+            });
+
+            // Responsividade
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
         }
 
         // Verificar o estado de autenticação do usuário
