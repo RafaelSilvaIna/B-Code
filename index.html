@@ -2,127 +2,69 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageTitle; ?></title>
-    <link rel="stylesheet" href="main.css">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consumo da API Hello World</title>
+  <style>
+    /* Estilos simples para a página */
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+    .container {
+      text-align: center;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #333;
+    }
+    p {
+      color: #555;
+      font-size: 1.2em;
+    }
+    .btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            
-            <a class="navbar-brand" href="#">
-                <img src="assets/logo.png" alt="Logo B-Code" class="logo">
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#"><i class="fas fa-home"></i> Início</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-info-circle"></i> Sobre</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-cogs"></i> Funcionalidades</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-dollar-sign"></i> Preços</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-envelope"></i> Contato</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn-primary" href="#">Iniciar <i class="fas fa-play"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <div class="container">
+    <h1>Consumo da API Hello World</h1>
+    <p id="response">Clique no botão abaixo para receber a resposta da API:</p>
+    <button class="btn" onclick="getHelloWorld()">Fazer Requisição</button>
+  </div>
 
-<section class="hero" id="hero">
-    <div class="hero-content text-center">
-        <h1 class="hero-title">Bem-vindo ao B-Code</h1>
-        <p class="hero-description">Teste seus códigos, desenvolva novas ideias e compartilhe sua criatividade com a comunidade. Ferramentas profissionais ao seu alcance!</p>
-        <a href="Auth/VerificationAuth.html" class="btn btn-primary hero-btn">Comece Agora</a>
-    </div>
-</section>
-
-    
-<section class="about-bcode" id="about-bcode">
-    <div class="container">
-        <div class="about-content">
-            <h2 class="section-title">Sobre o B-Code</h2>
-            <p class="about-description">
-                O <strong>B-Code</strong> é uma plataforma de código aberto desenvolvida por <strong>Rafael Silva Inácio</strong>, com o objetivo de fornecer um espaço colaborativo para desenvolvedores testarem, escreverem e compartilharem seus códigos de maneira simples e eficiente.
-                O B-Code permite que qualquer pessoa crie, edite e execute códigos diretamente no navegador, promovendo a troca de conhecimento em tempo real e a colaboração entre programadores do mundo inteiro.
-                <br><br>
-                Com uma interface amigável e ferramentas poderosas, o B-Code é um ambiente perfeito para você testar suas ideias e aprender com outros desenvolvedores. E o melhor: tudo isso gratuitamente! O projeto é completamente de código aberto, permitindo que qualquer pessoa contribua e ajude a torná-lo ainda melhor.
-            </p>
-            <div class="cta">
-                <a href="https://github.com/RafaelSilvaIna/B-Code" class="cta-btn" target="_blank">Acesse o Repositório no GitHub</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="free-platform" id="free-platform">
-    <div class="container">
-        <div class="free-content">
-            <h2 class="section-title">Oferecemos Esta Plataforma Gratuitamente</h2>
-            <p class="free-description">
-                No <strong>B-Code</strong>, acreditamos que o aprendizado e a colaboração devem ser acessíveis a todos. 
-                Por isso, oferecemos nossa plataforma de código aberto totalmente gratuita para todos os desenvolvedores, estudantes e entusiastas da programação. 
-                Aqui, você pode testar, compartilhar e melhorar seus códigos sem nenhuma barreira financeira.
-                <br><br>
-                O B-Code é a solução ideal para quem busca praticidade, interação e aprendizado sem custos. Acesse, contribua, e desenvolva suas habilidades sem nenhum custo.
-            </p>
-            <div class="cta">
-                <a href="Auth/VerificationAuth.html" class="cta-btn" id="enter-btn">Entrar na Plataforma</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="future-updates" id="future-updates">
-    <div class="container">
-        <div class="updates-content">
-            <h2 class="section-title">Estamos Testando o B-Code</h2>
-            <p class="updates-description">
-                O <strong>B-Code</strong> é uma plataforma gratuita e de código aberto, criada com o objetivo de ajudar desenvolvedores a testarem e colaborarem em códigos. 
-                Apesar de oferecermos este serviço sem custos para os usuários, enfrentamos desafios relacionados aos custos de manutenção, banco de dados e infraestrutura.
-                <br><br>
-                No futuro, planejamos implementar um sistema que permitirá que você, usuário, nos ajude a manter e expandir esta plataforma, garantindo a continuidade e trazendo constantes atualizações.
-            </p>
-            
-                <a href="features/FrontEnd/Donate.html" class="cta-btn">Saiba Como Ajudar</a>
-            
-        </div>
-    </div>
-</section>
-    
-
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.11.1/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.polyfills.min.js"></script>
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-    <script src="script.js"></script>
+  <script>
+    // Função que consome a API Hello World
+    function getHelloWorld() {
+      fetch('https://heloword-api.onrender.com')
+        .then(response => response.text())
+        .then(data => {
+          // Exibe a resposta da API no parágrafo
+          document.getElementById('response').textContent = data;
+        })
+        .catch(error => {
+          // Exibe erro caso algo dê errado
+          document.getElementById('response').textContent = 'Erro ao consumir a API: ' + error;
+        });
+    }
+  </script>
 </body>
 </html>
